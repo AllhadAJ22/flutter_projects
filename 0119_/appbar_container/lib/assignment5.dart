@@ -9,7 +9,7 @@ class Assignment5 extends StatelessWidget {
         body: Center(
           child: Row(children: [
             Image.asset(
-              "asstes/first.jpg",
+              "asstes/first.png",
               width: 200,
               height: 200,
             ),
