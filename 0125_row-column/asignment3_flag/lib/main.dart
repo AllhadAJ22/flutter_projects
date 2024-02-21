@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
 
 void main() => runApp(const MyApp());
 
@@ -36,14 +37,17 @@ class MyApp extends StatelessWidget {
                         ],
                       ),
                     ),
-                    SizedBox(
+                    Container(
                       height: 400,
                       child: Column(
                         children: [
-                          Container(
-                            height: 50,
-                            width: 200,
-                            color: Colors.orange,
+                          ClipPath(
+                            clipper: WaveClipperOne(reverse: true),
+                            child: Container(
+                              height: 50,
+                              width: 200,
+                              color: Colors.orange,
+                            ),
                           ),
                           Container(
                             height: 50,
@@ -56,13 +60,15 @@ class MyApp extends StatelessWidget {
                                 Image.network(
                                     "https://media.istockphoto.com/id/1140581548/vector/black-ashoka-chakra-symbol-of-national-flag-of-the-republic-of-india-isolated-on-white.jpg?s=612x612&w=0&k=20&c=kcPU7WbJ5Gl2DC8R_YIIFxnfuTz1m60hgUdjEU_NR0Y=")
                               ],
-                            )
-                            ),
+                            )),
                           ),
-                          Container(
-                            height: 50,
-                            width: 200,
-                            color: Colors.green,
+                          ClipPath(
+                            
+                            child: Container(
+                              height: 50,
+                              width: 200,
+                              color: Colors.green,
+                            ),
                           ),
                         ],
                       ),
@@ -73,7 +79,6 @@ class MyApp extends StatelessWidget {
                   width: 400,
                   height: 25,
                   color: Colors.black,
-                  
                 )
               ],
             ),

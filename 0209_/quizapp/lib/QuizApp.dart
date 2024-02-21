@@ -115,7 +115,7 @@ class _QuizAppState extends State {
                   backgroundColor: butColor(but1),
                   fixedSize: const Size(double.maxFinite, 50)),
               onPressed: () {
-                if (isClick == true) {
+                if (isClick == false) {
                   setState(() {
                     if (allQuestion[questionindex]["answer"] == 0) {
                       correct++;
@@ -285,6 +285,7 @@ class _QuizAppState extends State {
                       but3 = 0;
                       but4 = 0;
                       questionindex = 0;
+                      isClick = false;
                     });
                   },
                   child: const Text("Reset"))
