@@ -42,7 +42,7 @@ class _QuizAppState extends State {
     ),
   ];
   int currentque = 0;
-  bool selectedScreen = true;
+  int selectedScreen = 0;
   int selectedans = -1;
   int correctans = 0;
 
@@ -53,16 +53,76 @@ class _QuizAppState extends State {
       } else if (butIndex == selectedans) {
         return const MaterialStatePropertyAll(Colors.red);
       } else {
-        return const MaterialStatePropertyAll(null);
+        return const MaterialStatePropertyAll(Colors.grey);
       }
     } else {
-      return const MaterialStatePropertyAll(null);
+      return const MaterialStatePropertyAll(Colors.grey);
     }
   }
 
   Scaffold screen() {
-    if (selectedScreen == true) {
+    if (selectedScreen == 0) {
       return Scaffold(
+        backgroundColor: Colors.grey,
+        appBar: AppBar(
+          backgroundColor: Colors.black,
+          title: const Text(
+            "Quiz App",
+            style: TextStyle(
+                color: Colors.grey, fontSize: 30, fontWeight: FontWeight.w800),
+          ),
+          centerTitle: true,
+        ),
+        body: Container(
+          width: double.infinity,
+          margin:
+              const EdgeInsets.only(right: 20, left: 20, top: 20, bottom: 20),
+          child: Column(
+            children: [
+              Container(
+                decoration: const BoxDecoration(
+                  boxShadow: [
+                    BoxShadow(blurRadius: 20),
+                  ],
+                ),
+                margin: const EdgeInsets.only(top: 50, bottom: 60),
+                child: Image.network(
+                  "https://t3.ftcdn.net/jpg/05/19/43/54/360_F_519435456_iuZWEuwGOWmygRohfDOT0uKVADWpumMk.jpg",
+                ),
+              ),
+              Container(
+                decoration: const BoxDecoration(
+                  boxShadow: [
+                    BoxShadow(blurRadius: 20),
+                  ],
+                ),
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    fixedSize: const Size(400, 50),
+                    backgroundColor: Colors.black,
+                  ),
+                  onPressed: () {
+                    setState(() {
+                      selectedScreen++;
+                    });
+                  },
+                  child: const Text(
+                    "Tap to start Quiz",
+                    style: TextStyle(
+                      fontSize: 30,
+                      color: Colors.white,
+                      fontWeight: FontWeight.w800,
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      );
+    } else if (selectedScreen == 1) {
+      return Scaffold(
+        backgroundColor: Colors.grey,
         appBar: AppBar(
           backgroundColor: Colors.black,
           title: const Text(
@@ -101,62 +161,90 @@ class _QuizAppState extends State {
             const SizedBox(
               height: 20,
             ),
-            ElevatedButton(
-              style: ButtonStyle(
-                  backgroundColor: butColor(0),
-                  fixedSize: const MaterialStatePropertyAll(Size(400, 50))),
-              onPressed: () {
-                if (selectedans == -1) {
-                  selectedans = 0;
-                  setState(() {});
-                }
-              },
-              child: Text("A. ${allQuestions[currentque].options[0]}"),
-            ),
-            const SizedBox(
-              height: 15,
-            ),
-            ElevatedButton(
-              style: ButtonStyle(
-                  backgroundColor: butColor(1),
-                  fixedSize: const MaterialStatePropertyAll(Size(400, 50))),
-              onPressed: () {
-                if (selectedans == -1) {
-                  selectedans = 1;
-                  setState(() {});
-                }
-              },
-              child: Text("B. ${allQuestions[currentque].options[1]}"),
-            ),
-            const SizedBox(
-              height: 15,
-            ),
-            ElevatedButton(
-              style: ButtonStyle(
-                  backgroundColor: butColor(2),
-                  fixedSize: const MaterialStatePropertyAll(Size(400, 50))),
-              onPressed: () {
-                if (selectedans == -1) {
-                  selectedans = 2;
-                  setState(() {});
-                }
-              },
-              child: Text("C. ${allQuestions[currentque].options[2]}"),
-            ),
-            const SizedBox(
-              height: 15,
-            ),
-            ElevatedButton(
-              style: ButtonStyle(
-                  backgroundColor: butColor(3),
-                  fixedSize: const MaterialStatePropertyAll(Size(400, 50))),
-              onPressed: () {
-                if (selectedans == -1) {
-                  selectedans = 3;
-                  setState(() {});
-                }
-              },
-              child: Text("D. ${allQuestions[currentque].options[3]}"),
+            Container(
+              decoration: const BoxDecoration(
+                color: Colors.black,
+                boxShadow: [
+                  BoxShadow(blurRadius: 20),
+                ],
+              ),
+              height: 300,
+              width: double.infinity,
+              margin: const EdgeInsets.only(top: 30, left: 20, right: 20),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  ElevatedButton(
+                    style: ButtonStyle(
+                      backgroundColor: butColor(0),
+                      fixedSize: const MaterialStatePropertyAll(
+                        Size(350, 50),
+                      ),
+                    ),
+                    onPressed: () {
+                      if (selectedans == -1) {
+                        selectedans = 0;
+                        setState(() {});
+                      }
+                    },
+                    child: Text(
+                      "A. ${allQuestions[currentque].options[0]}",
+                      style: const TextStyle(color: Colors.black, fontSize: 20),
+                    ),
+                  ),
+                  ElevatedButton(
+                    style: ButtonStyle(
+                      backgroundColor: butColor(1),
+                      fixedSize: const MaterialStatePropertyAll(
+                        Size(350, 50),
+                      ),
+                    ),
+                    onPressed: () {
+                      if (selectedans == -1) {
+                        selectedans = 1;
+                        setState(() {});
+                      }
+                    },
+                    child: Text("B. ${allQuestions[currentque].options[1]}",
+                        style:
+                            const TextStyle(color: Colors.black, fontSize: 20)),
+                  ),
+                  ElevatedButton(
+                    style: ButtonStyle(
+                      backgroundColor: butColor(2),
+                      fixedSize: const MaterialStatePropertyAll(
+                        Size(350, 50),
+                      ),
+                    ),
+                    onPressed: () {
+                      if (selectedans == -1) {
+                        selectedans = 2;
+                        setState(() {});
+                      }
+                    },
+                    child: Text("C. ${allQuestions[currentque].options[2]}",
+                        style:
+                            const TextStyle(color: Colors.black, fontSize: 20)),
+                  ),
+                  ElevatedButton(
+                    style: ButtonStyle(
+                      backgroundColor: butColor(3),
+                      fixedSize: const MaterialStatePropertyAll(
+                        Size(350, 50),
+                      ),
+                    ),
+                    onPressed: () {
+                      if (selectedans == -1) {
+                        selectedans = 3;
+                        setState(() {});
+                      }
+                    },
+                    child: Text("D. ${allQuestions[currentque].options[3]}",
+                        style:
+                            const TextStyle(color: Colors.black, fontSize: 20)),
+                  ),
+                ],
+              ),
             ),
           ],
         ),
@@ -167,7 +255,7 @@ class _QuizAppState extends State {
                 correctans++;
               }
               if (currentque == allQuestions.length - 1) {
-                selectedScreen = false;
+                selectedScreen++;
               }
               currentque++;
               selectedans = -1;
@@ -180,6 +268,7 @@ class _QuizAppState extends State {
       );
     } else {
       return Scaffold(
+        backgroundColor: Colors.grey,
         appBar: AppBar(
           backgroundColor: Colors.black,
           title: const Text(
@@ -194,10 +283,10 @@ class _QuizAppState extends State {
             const SizedBox(
               height: 20,
             ),
-            Image.network(
-              "https://www.shutterstock.com/image-vector/best-champions-cup-trophy-vector-600nw-2098544092.jpg",
+            Image.asset(
+              "asstes/trop.gif",
               width: 500,
-              height: 200,
+              height: 400,
             ),
             const SizedBox(
               height: 20,
@@ -219,8 +308,10 @@ class _QuizAppState extends State {
             (correctans == allQuestions.length)
                 ? const Text("Your All Answers Are Correct")
                 : ElevatedButton(
+                    style:
+                        ElevatedButton.styleFrom(backgroundColor: Colors.black),
                     onPressed: () {
-                      selectedScreen = true;
+                      selectedScreen = 0;
                       currentque = 0;
                       selectedans = -1;
                       correctans = 0;
@@ -229,8 +320,10 @@ class _QuizAppState extends State {
                     },
                     child: const Text(
                       "Restart  Quiz",
-                      style:
-                          TextStyle(fontSize: 25, fontWeight: FontWeight.w800),
+                      style: TextStyle(
+                          color: Colors.grey,
+                          fontSize: 25,
+                          fontWeight: FontWeight.w600),
                     ),
                   ),
           ],

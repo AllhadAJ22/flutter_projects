@@ -22,14 +22,15 @@ class ToDoList extends StatefulWidget {
   State createState() => _ToDoListState();
 }
 
+List colorList = [
+  const Color.fromRGBO(250, 232, 232, 1),
+  const Color.fromRGBO(232, 237, 250, 1),
+  const Color.fromRGBO(250, 249, 232, 1),
+  const Color.fromRGBO(250, 232, 250, 1),
+  const Color.fromRGBO(250, 232, 232, 1)
+];
+
 class _ToDoListState extends State<ToDoList> {
-  List colorList = [
-    const Color.fromRGBO(250, 232, 232, 1),
-    const Color.fromRGBO(232, 237, 250, 1),
-    const Color.fromRGBO(250, 249, 232, 1),
-    const Color.fromRGBO(250, 232, 250, 1),
-    const Color.fromRGBO(250, 232, 232, 1)
-  ];
   List worklist = [
     {
       'heading': "Lorem Ipsum is simply setting industry. ",

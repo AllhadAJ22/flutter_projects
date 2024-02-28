@@ -79,7 +79,9 @@ class _Assignment2State extends State<Assignment2> {
             ),
       floatingActionButton: FloatingActionButton(onPressed: () {
         flag = !flag;
-        setState(() {});
+        setState(() {
+          print("in createState()");
+        });
       }),
     );
   }

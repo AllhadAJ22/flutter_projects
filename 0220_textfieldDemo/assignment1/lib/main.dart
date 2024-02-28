@@ -26,6 +26,21 @@ class _Assignment1State extends State<Assignment1> {
   TextEditingController cname = TextEditingController();
   TextEditingController location = TextEditingController();
   bool flag = false;
+  List data = [];
+  List data1 = [];
+  void addData() {
+    data1.add(name.text);
+    data1.add(cname.text);
+    data1.add(location.text);
+    data.add(data1);
+
+    // print(data);
+    name.clear();
+    cname.clear();
+    location.clear();
+    data1 = [];
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -77,8 +92,10 @@ class _Assignment1State extends State<Assignment1> {
           ),
           ElevatedButton(
             onPressed: () {
-              flag = !flag;
-              setState(() {});
+              setState(() {
+                addData();
+              });
+              flag = true;
             },
             style: ElevatedButton.styleFrom(
               backgroundColor: Colors.red,
@@ -92,38 +109,56 @@ class _Assignment1State extends State<Assignment1> {
           ),
           (flag == true)
               ? Container(
-                  height: 300,
-                  width: 300,
-                  child: Column(
-                    children: [
-                      const Text(
-                        "Dream Company",
-                        style: TextStyle(fontSize: 25),
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      Text(
-                        "Name : ${name.text}",
-                        style: const TextStyle(fontSize: 20),
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      Text(
-                        "Company Name : ${cname.text}",
-                        style: const TextStyle(fontSize: 20),
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      Text(
-                        "Location : ${location.text}",
-                        style: const TextStyle(fontSize: 20),
-                      ),
-                    ],
-                  ),
-                )
+                  // color: Colors.red,
+                  height: 400,
+                  width: double.infinity,
+                  child: ListView.builder(
+                      shrinkWrap: true,
+                      itemCount: data.length,
+                      itemBuilder: (context, index) {
+                        return Container(
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(20),
+                              boxShadow: [BoxShadow(blurRadius: 10)],
+                              color: Colors.white),
+                          margin: const EdgeInsets.only(
+                              top: 30, left: 50, right: 50),
+                          height: 200,
+                          width: double.infinity,
+                          child: Column(
+                            children: [
+                              const SizedBox(
+                                height: 20,
+                              ),
+                              const Text(
+                                "Dream Company",
+                                style: TextStyle(fontSize: 25),
+                              ),
+                              const SizedBox(
+                                height: 10,
+                              ),
+                              Text(
+                                "Name : ${data[index][0]}",
+                                style: const TextStyle(fontSize: 20),
+                              ),
+                              const SizedBox(
+                                height: 10,
+                              ),
+                              Text(
+                                "Company Name : ${data[index][1]}",
+                                style: const TextStyle(fontSize: 20),
+                              ),
+                              const SizedBox(
+                                height: 10,
+                              ),
+                              Text(
+                                "Location : ${data[index][2]}",
+                                style: const TextStyle(fontSize: 20),
+                              ),
+                            ],
+                          ),
+                        );
+                      }))
               : Container(),
         ],
       ),
