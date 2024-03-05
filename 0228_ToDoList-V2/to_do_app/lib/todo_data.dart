@@ -9,3 +9,9 @@ class ToDoModelClass {
     required this.date,
   });
 }
+
+List userList = [
+  {"username": "Allhad", "password": "Allhad123"},
+  {"username": "Sumant", "password": "Sumant123"},
+  {"username": "Ankit", "password": "Ankit123"},
+];

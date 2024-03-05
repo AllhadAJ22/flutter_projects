@@ -10,6 +10,12 @@ class ToDoListApp extends StatefulWidget {
 }
 
 class _ToDoListAppState extends State<ToDoListApp> {
+ 
+  TextEditingController userName = TextEditingController();
+  TextEditingController passWord = TextEditingController();
+
+  final GlobalKey<FormState> _formkey = GlobalKey<FormState>();
+
   TextEditingController titleController = TextEditingController();
   TextEditingController descriptionController = TextEditingController();
   TextEditingController dateController = TextEditingController();
@@ -251,147 +257,270 @@ class _ToDoListAppState extends State<ToDoListApp> {
     showBottomSheet(true, toDoModelObj);
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      resizeToAvoidBottomInset: true,
-      appBar: AppBar(
-        title: Text(
-          "TO-DO APP",
-          style: GoogleFonts.quicksand(
-              fontSize: 25, fontWeight: FontWeight.w700, color: Colors.white),
+  bool screenflag = true;
+  Scaffold screen() {
+    if (screenflag == true) {
+      return Scaffold(
+        appBar: AppBar(
+          centerTitle: true,
+          backgroundColor: Colors.amberAccent,
+          title: const Text("To-Do App Login"),
         ),
-        backgroundColor: const Color.fromRGBO(2, 167, 177, 1),
-      ),
-      body: ListView.builder(
-          itemCount: workList.length,
-          itemBuilder: (context, index) {
-            return Padding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: 15,
-                vertical: 15,
+        body: Form(
+          key: _formkey,
+          child: Column(
+            children: [
+              const SizedBox(
+                height: 20,
               ),
-              child: Container(
-                decoration: BoxDecoration(
-                  color: colorList[index % colorList.length],
-                  boxShadow: const [
-                    BoxShadow(
-                      offset: Offset(0, 10),
-                      color: Color.fromRGBO(0, 0, 0, 0.1),
-                      blurRadius: 10,
-                    ),
-                  ],
-                  borderRadius: BorderRadius.circular(10),
+              TextFormField(
+                controller: userName,
+                decoration: InputDecoration(
+                  prefixIcon: const Icon(Icons.person),
+                  hintText: "Enter your UserName ?",
+                  label: const Text("UserName"),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(20),
+                  ),
                 ),
-                child: Padding(
-                  padding: const EdgeInsets.all(10.0),
-                  child: Column(
-                    children: [
-                      Row(
-                        children: [
-                          Container(
-                            height: 70,
-                            width: 70,
-                            decoration: const BoxDecoration(
-                                color: Colors.white,
-                                // borderRadius: BorderRadius.all(Radius.circular(50))
-                                shape: BoxShape.circle),
-                            child: Image.asset("gallery-icon.png"),
+                // keyboardType: TextInputType.emailAddress,
+                validator: (value) {
+                  // print("username");
+                  if (value == null || value.isEmpty) {
+                    return "please enter username";
+                  } else {
+                    return null;
+                  }
+                },
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              TextFormField(
+                obscureText: true,
+                obscuringCharacter: "*",
+                controller: passWord,
+                decoration: InputDecoration(
+                  prefixIcon: const Icon(Icons.lock),
+                  suffixIcon: IconButton(
+                    onPressed: () {},
+                    icon: const Icon(Icons.remove_red_eye_outlined),
+                  ),
+                  hintText: "Enter your PassWord ?",
+                  label: const Text("Password"),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                ),
+                validator: (value) {
+                  // print("password");
+                  if (value == null || value.isEmpty) {
+                    return "please enter password";
+                  } else {
+                    return null;
+                  }
+                },
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  bool validate = _formkey.currentState!.validate();
+                  // print(userName.text);
+                  // print(passWord.text);
+                  bool flag = true;
+
+                  if (validate) {
+                    // print("object");
+                    for (int i = 0; i < userList.length; i++) {
+                      if (userList[i]["username"] == userName.text &&
+                          userList[i]["password"] == passWord.text) {
+                        flag = false;
+
+                        screenflag = false;
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text("LOGIN SUCCESSFUL"),
                           ),
-                          const SizedBox(
-                            width: 10,
-                          ),
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  workList[index].title,
-                                  style: GoogleFonts.quicksand(
-                                    fontWeight: FontWeight.w600,
-                                    fontSize: 15,
-                                    color: const Color.fromRGBO(0, 0, 0, 1),
-                                  ),
-                                ),
-                                const SizedBox(
-                                  height: 10,
-                                ),
-                                Text(
-                                  workList[index].description,
-                                  style: GoogleFonts.quicksand(
-                                    fontWeight: FontWeight.w500,
-                                    fontSize: 12,
-                                    color: const Color.fromRGBO(84, 84, 84, 1),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
+                        );
+                        setState(() {});
+                        break;
+                      }
+                    }
+                  }
+                  if (validate == true && flag == true) {
+                    // print("true");
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content: Text("Invalid username and password"),
                       ),
-                      const SizedBox(
-                        height: 14,
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 10, right: 10),
-                        child: Row(
-                          children: [
-                            Text(
-                              workList[index].date,
-                              style: GoogleFonts.quicksand(
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w400,
-                                  color:
-                                      const Color.fromRGBO(132, 132, 132, 1)),
-                            ),
-                            const Spacer(),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              children: [
-                                GestureDetector(
-                                  onTap: () {
-                                    editTask(workList[index]);
-                                  },
-                                  child: const Icon(
-                                    Icons.edit_outlined,
-                                    color: Color.fromRGBO(0, 139, 148, 1),
-                                  ),
-                                ),
-                                const SizedBox(
-                                  width: 10,
-                                ),
-                                GestureDetector(
-                                  onTap: () {
-                                    removeTasks(workList[index]);
-                                  },
-                                  child: const Icon(
-                                    Icons.delete_outline,
-                                    color: Color.fromRGBO(0, 139, 148, 1),
-                                  ),
-                                )
-                              ],
-                            )
-                          ],
-                        ),
-                      ),
-                    ],
+                    );
+                  }
+                },
+                style: const ButtonStyle(
+
+                  backgroundColor: MaterialStatePropertyAll(Colors.black),
+                  fixedSize: MaterialStatePropertyAll(Size(300, 50)),
+                ),
+                child: const Text(
+                  "Submit",
+                  style: TextStyle(
+                    color: Colors.white,
                   ),
                 ),
               ),
-            );
-          }),
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: const Color.fromRGBO(0, 139, 148, 1),
-        onPressed: () {
-          clearController();
-          showBottomSheet(false);
-        },
-        child: const Icon(
-          Icons.add,
-          size: 50,
-          color: Colors.white,
+            ],
+          ),
         ),
-      ),
-    );
+      );
+    } else {
+      return Scaffold(
+        resizeToAvoidBottomInset: true,
+        appBar: AppBar(
+          title: Text(
+            "TO-DO APP",
+            style: GoogleFonts.quicksand(
+                fontSize: 25, fontWeight: FontWeight.w700, color: Colors.white),
+          ),
+          backgroundColor: const Color.fromRGBO(2, 167, 177, 1),
+        ),
+        body: ListView.builder(
+            itemCount: workList.length,
+            itemBuilder: (context, index) {
+              return Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 15,
+                  vertical: 15,
+                ),
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: colorList[index % colorList.length],
+                    boxShadow: const [
+                      BoxShadow(
+                        offset: Offset(0, 10),
+                        color: Color.fromRGBO(0, 0, 0, 0.1),
+                        blurRadius: 10,
+                      ),
+                    ],
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(10.0),
+                    child: Column(
+                      children: [
+                        Row(
+                          children: [
+                            Container(
+                              height: 70,
+                              width: 70,
+                              decoration: const BoxDecoration(
+                                  color: Colors.white,
+                                  // borderRadius: BorderRadius.all(Radius.circular(50))
+                                  shape: BoxShape.circle),
+                              child: Image.asset("assets/gallery-icon.png"),
+                            ),
+                            const SizedBox(
+                              width: 10,
+                            ),
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    workList[index].title,
+                                    style: GoogleFonts.quicksand(
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 15,
+                                      color: const Color.fromRGBO(0, 0, 0, 1),
+                                    ),
+                                  ),
+                                  const SizedBox(
+                                    height: 10,
+                                  ),
+                                  Text(
+                                    workList[index].description,
+                                    style: GoogleFonts.quicksand(
+                                      fontWeight: FontWeight.w500,
+                                      fontSize: 12,
+                                      color:
+                                          const Color.fromRGBO(84, 84, 84, 1),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(
+                          height: 14,
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 10, right: 10),
+                          child: Row(
+                            children: [
+                              Text(
+                                workList[index].date,
+                                style: GoogleFonts.quicksand(
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.w400,
+                                    color:
+                                        const Color.fromRGBO(132, 132, 132, 1)),
+                              ),
+                              const Spacer(),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: [
+                                  GestureDetector(
+                                    onTap: () {
+                                      editTask(workList[index]);
+                                    },
+                                    child: const Icon(
+                                      Icons.edit_outlined,
+                                      color: Color.fromRGBO(0, 139, 148, 1),
+                                    ),
+                                  ),
+                                  const SizedBox(
+                                    width: 10,
+                                  ),
+                                  GestureDetector(
+                                    onTap: () {
+                                      removeTasks(workList[index]);
+                                    },
+                                    child: const Icon(
+                                      Icons.delete_outline,
+                                      color: Color.fromRGBO(0, 139, 148, 1),
+                                    ),
+                                  )
+                                ],
+                              )
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              );
+            }),
+        floatingActionButton: FloatingActionButton(
+          backgroundColor: const Color.fromRGBO(0, 139, 148, 1),
+          onPressed: () {
+            clearController();
+            showBottomSheet(false);
+          },
+          child: const Icon(
+            Icons.add,
+            size: 50,
+            color: Colors.white,
+          ),
+        ),
+      );
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return screen();
   }
 }

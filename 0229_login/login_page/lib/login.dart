@@ -8,6 +8,9 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
+  List userList = [
+    {"username": "Allhad", "password": "Allhad123"},
+  ];
   TextEditingController userName = TextEditingController();
   TextEditingController passWord = TextEditingController();
 
@@ -40,7 +43,7 @@ class _LoginState extends State<Login> {
               ),
               // keyboardType: TextInputType.emailAddress,
               validator: (value) {
-                print("username");
+                // print("username");
                 if (value == null || value.isEmpty) {
                   return "please enter username";
                 } else {
@@ -68,7 +71,7 @@ class _LoginState extends State<Login> {
                 ),
               ),
               validator: (value) {
-                print("password");
+                // print("password");
                 if (value == null || value.isEmpty) {
                   return "please enter password";
                 } else {
@@ -82,16 +85,30 @@ class _LoginState extends State<Login> {
             ElevatedButton(
               onPressed: () {
                 bool validate = _formkey.currentState!.validate();
+                // print(userName.text);
+                // print(passWord.text);
+                bool flag = true;
+
                 if (validate) {
+                  // print("object");
+                  for (int i = 0; i < userList.length; i++) {
+                    if (userList[i]["username"] == userName.text &&
+                        userList[i]["password"] == passWord.text) {
+                      flag = false;
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text("LOGIN SUCCESSFUL"),
+                        ),
+                      );
+                      break;
+                    }
+                  }
+                }
+                if (validate == true && flag == true) {
+                  // print("true");
                   ScaffoldMessenger.of(context).showSnackBar(
                     const SnackBar(
-                      content: Text("LOGIN SUCCESSFUL"),
-                    ),
-                  );
-                } else {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
-                      content: Text("LOGIN FAAILED"),
+                      content: Text("Invalid username and password"),
                     ),
                   );
                 }
