@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 
 class Assignment5 extends StatefulWidget {
   const Assignment5({super.key});
@@ -8,34 +9,60 @@ class Assignment5 extends StatefulWidget {
 }
 
 class _AssignmentState extends State<Assignment5> {
+  bool c1 = false;
+  bool c2 = false;
+  bool c3 = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            Image.network(
-              "https://images.unsplash.com/photo-1529665253569-6d01c0eaf7b6?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8cHJvZmlsZXxlbnwwfHwwfHx8MA%3D%3D",
-              fit: BoxFit.cover,
-              height: 100,
-              width: 100,
+            GestureDetector(
+              onTap: () {
+                c1 = true;
+                c2 = false;
+                c3 = false;
+                setState(() {});
+              },
+              child: Container(
+                decoration: BoxDecoration(
+                    color: (c1 == true) ? Colors.red : Colors.white,
+                    border: Border.all(width: 2)),
+                height: 100,
+                width: 200,
+              ),
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Container(
-                  height: 100,
-                  width: 100,
-                  color: Colors.blue,
-                ),
-                Container(
-                  margin: const EdgeInsets.only(left: 20),
-                  height: 100,
-                  width: 100,
-                  color: Colors.red,
-                ),
-              ],
+            GestureDetector(
+              onTap: () {
+                c2 = true;
+                c1 = false;
+                c3 = false;
+                setState(() {});
+              },
+              child: Container(
+                decoration: BoxDecoration(
+                    color: (c2 == true) ? Colors.red : Colors.white,
+                    border: Border.all(width: 2)),
+                height: 100,
+                width: 200,
+              ),
+            ),
+            GestureDetector(
+              onTap: () {
+                c3 = true;
+                c2 = false;
+                c1 = false;
+                setState(() {});
+              },
+              child: Container(
+                decoration: BoxDecoration(
+                    color: (c3 == true) ? Colors.red : Colors.white,
+                    border: Border.all(width: 2)),
+                height: 100,
+                width: 200,
+              ),
             )
           ],
         ),

@@ -1,4 +1,8 @@
 import 'package:dailyflash6/assignmen1.dart';
+import 'package:dailyflash6/assignmen2.dart';
+import 'package:dailyflash6/assignmen3.dart';
+import 'package:dailyflash6/assignmen4.dart';
+import 'package:dailyflash6/assignmen5.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -13,7 +17,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return const MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: Assignment1(),
+      home: Assignment5(),
     );
   }
 }
