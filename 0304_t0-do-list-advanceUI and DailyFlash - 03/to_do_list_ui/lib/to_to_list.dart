@@ -290,7 +290,7 @@ class _ToDoListState extends State<ToDoList> {
                                     decoration: const BoxDecoration(
                                         color: Colors.white,
                                         shape: BoxShape.circle),
-                                    child: Image.asset("gallery-icon.png"),
+                                    child: Image.asset("assets/gallery-icon.png"),
                                   ),
                                   Expanded(
                                     child: Column(
