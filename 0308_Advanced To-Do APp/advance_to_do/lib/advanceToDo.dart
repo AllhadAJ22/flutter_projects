@@ -240,14 +240,14 @@ class _TODOAppUIState extends State<TODOAppUI> {
         );
         _getCards();
       } else {
-        int? no = toDoModelObj?.card_no;
+        int? no = toDoModelObj?.cardNo;
         // print(toDoModelObj?.card_no);
         toDoModelObj!.date = dateController.text.trim();
         toDoModelObj.title = titleController.text.trim();
         toDoModelObj.description = descriptionController.text.trim();
         DatabaseSqflite.updateCard(
           ToDoModelClass(
-            card_no: no,
+            cardNo: no,
             title: titleController.text.trim(),
             description: descriptionController.text.trim(),
             date: dateController.text.trim(),
@@ -266,7 +266,7 @@ class _TODOAppUIState extends State<TODOAppUI> {
   }
 
   void removeTasks(ToDoModelClass toDoModelObj) async {
-    print(toDoModelObj.card_no);
+    // print(toDoModelObj.cardNo);
     await DatabaseSqflite.deleteCard(toDoModelObj);
     _getCards();
   }
@@ -278,6 +278,7 @@ class _TODOAppUIState extends State<TODOAppUI> {
     showBottomSht(true, toDoModelObj);
   }
 
+  bool flag = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -447,6 +448,7 @@ class _TODOAppUIState extends State<TODOAppUI> {
                                       margin: const EdgeInsets.only(top: 10),
                                       padding: const EdgeInsets.only(
                                         left: 20,
+                                        // right: 20,
                                         bottom: 20,
                                         top: 20,
                                       ),
@@ -491,7 +493,7 @@ class _TODOAppUIState extends State<TODOAppUI> {
                                                 width: 20,
                                               ),
                                               SizedBox(
-                                                width: 260,
+                                                width: 222,
                                                 child: Column(
                                                   crossAxisAlignment:
                                                       CrossAxisAlignment.start,
@@ -535,19 +537,24 @@ class _TODOAppUIState extends State<TODOAppUI> {
                                                   ],
                                                 ),
                                               ),
-                                              const Spacer(),
                                               Checkbox(
                                                 shape: RoundedRectangleBorder(
                                                   borderRadius:
                                                       BorderRadius.circular(10),
                                                 ),
                                                 activeColor: Colors.green,
-                                                value: true,
-                                                onChanged: (val) {},
+                                                value: flag,
+                                                onChanged: (val) {
+                                                  flag = !flag;
+                                                  // print(flag);
+                                                  setState(() {
+                                                
+                                                  });
+                                                },
                                               ),
-                                              // const SizedBox(
-                                              //   width: 20,
-                                              // )
+                                              const SizedBox(
+                                                width: 20,
+                                              )
                                             ],
                                           ),
                                         ],

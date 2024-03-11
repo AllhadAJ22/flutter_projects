@@ -1,7 +1,6 @@
-import 'package:flutter/material.dart';
+
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
-import 'package:sqflite/sqlite_api.dart';
 
 class DatabaseSqflite {
   static dynamic database;
@@ -24,7 +23,7 @@ class DatabaseSqflite {
     List<Map<String, dynamic>> cardList = await localdb.query("cards");
     return List.generate(cardList.length, (i) {
       return ToDoModelClass(
-        card_no: cardList[i]['card_no'],
+        cardNo: cardList[i]['card_no'],
         title: cardList[i]['title'],
         description: cardList[i]['description'],
         date: cardList[i]['date'],
@@ -43,34 +42,33 @@ class DatabaseSqflite {
 
   static Future<void> deleteCard(ToDoModelClass obj) async {
     final localdb = await openFunction();
-    print(obj.card_no);
+    // print(obj.card_no);
     await localdb.delete(
       "cards",
       where: "card_no = ?",
-      whereArgs: [obj.card_no],
+      whereArgs: [obj.cardNo],
     );
   }
 
   static Future<void> updateCard(ToDoModelClass obj) async {
     final localdb = await openFunction();
-    print(obj.updatemap());
+    // print(obj.updatemap());
     await localdb.update("cards", obj.updatemap(),
         where: "card_no = ?",
-        whereArgs: [obj.card_no],
+        whereArgs: [obj.cardNo],
         conflictAlgorithm: ConflictAlgorithm.replace);
   }
 }
 
 class ToDoModelClass {
-  // ignore: non_constant_identifier_names
-  int? card_no;
+  int? cardNo;
   String title;
   String description;
   String date;
   // bool card_status;
 
   ToDoModelClass({
-    this.card_no,
+    this.cardNo,
     required this.title,
     required this.description,
     required this.date,
@@ -79,7 +77,7 @@ class ToDoModelClass {
 
   Map<String, dynamic> updatemap() {
     return {
-      "card_no": card_no,
+      "card_no": cardNo,
       "title": title,
       "description": description,
       "date": date,
