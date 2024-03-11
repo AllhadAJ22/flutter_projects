@@ -1,17 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
+import 'package:sqflite/sqlite_api.dart';
 
 class DatabaseSqflite {
   static dynamic database;
   static dynamic openFunction() async {
     database = openDatabase(
-      join(await getDatabasesPath(), "To-Do.db"),
+      join(await getDatabasesPath(), "To-Do3.db"),
       version: 1,
       onCreate: (db, version) {
         db.execute(
-            // "create table cards(card_no INT PRIMARY KEY,title TEXT,description TEXT,date TEXT,card_status BOOLEAN)");
-            "create table cards(title TEXT PRIMARY KEY,description TEXT,date TEXT)");
+            "create table cards(card_no INTEGER PRIMARY KEY AUTOINCREMENT,title TEXT,description TEXT,date TEXT)");
+        // "create table cards(title TEXT PRIMARY KEY,description TEXT,date TEXT)");
       },
     );
     return database;
@@ -23,6 +24,7 @@ class DatabaseSqflite {
     List<Map<String, dynamic>> cardList = await localdb.query("cards");
     return List.generate(cardList.length, (i) {
       return ToDoModelClass(
+        card_no: cardList[i]['card_no'],
         title: cardList[i]['title'],
         description: cardList[i]['description'],
         date: cardList[i]['date'],
@@ -41,30 +43,49 @@ class DatabaseSqflite {
 
   static Future<void> deleteCard(ToDoModelClass obj) async {
     final localdb = await openFunction();
+    print(obj.card_no);
     await localdb.delete(
       "cards",
-      where: "title = ?",
-      whereArgs: [obj.title],
+      where: "card_no = ?",
+      whereArgs: [obj.card_no],
     );
-    
-    
+  }
+
+  static Future<void> updateCard(ToDoModelClass obj) async {
+    final localdb = await openFunction();
+    print(obj.updatemap());
+    await localdb.update("cards", obj.updatemap(),
+        where: "card_no = ?",
+        whereArgs: [obj.card_no],
+        conflictAlgorithm: ConflictAlgorithm.replace);
   }
 }
 
 class ToDoModelClass {
-  // int card_no;
+  // ignore: non_constant_identifier_names
+  int? card_no;
   String title;
   String description;
   String date;
   // bool card_status;
 
   ToDoModelClass({
-    // required this.card_no,
+    this.card_no,
     required this.title,
     required this.description,
     required this.date,
     // required this.card_status,
   });
+
+  Map<String, dynamic> updatemap() {
+    return {
+      "card_no": card_no,
+      "title": title,
+      "description": description,
+      "date": date,
+      // "card_status": card_status
+    };
+  }
 
   Map<String, dynamic> workmap() {
     return {
