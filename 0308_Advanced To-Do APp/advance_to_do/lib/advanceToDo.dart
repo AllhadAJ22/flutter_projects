@@ -16,6 +16,8 @@ class _TODOAppUIState extends State<TODOAppUI> {
   List cardList = [];
   void _getCards() async {
     cardList = await DatabaseSqflite.getCardList();
+    print(cardList[0].cardstatus);
+    // print(cardList[1].cardstat-us);
     setState(() {});
   }
 
@@ -236,6 +238,7 @@ class _TODOAppUIState extends State<TODOAppUI> {
             title: titleController.text.trim(),
             description: descriptionController.text.trim(),
             date: dateController.text.trim(),
+            cardstatus: false,
           ),
         );
         _getCards();
@@ -251,12 +254,27 @@ class _TODOAppUIState extends State<TODOAppUI> {
             title: titleController.text.trim(),
             description: descriptionController.text.trim(),
             date: dateController.text.trim(),
+            cardstatus: toDoModelObj.cardstatus,
           ),
         );
         _getCards();
       }
     }
     clearController();
+  }
+
+  void updateStatus(ToDoModelClass obj) {
+    // int? no = obj.cardNo;
+    DatabaseSqflite.updateCard(
+      ToDoModelClass(
+        cardNo: obj.cardNo,
+        title: obj.title,
+        description: obj.description,
+        date: obj.date,
+        cardstatus: obj.cardstatus,
+      ),
+    );
+    _getCards();
   }
 
   void clearController() {
@@ -543,13 +561,17 @@ class _TODOAppUIState extends State<TODOAppUI> {
                                                       BorderRadius.circular(10),
                                                 ),
                                                 activeColor: Colors.green,
-                                                value: flag,
+                                                value:
+                                                    cardList[index].cardstatus,
                                                 onChanged: (val) {
-                                                  flag = !flag;
-                                                  // print(flag);
-                                                  setState(() {
-                                                
-                                                  });
+                                                  cardList[index].cardstatus =
+                                                      !cardList[index]
+                                                          .cardstatus;
+                                                  print(cardList[index]
+                                                      .cardstatus);
+                                                  updateStatus(cardList[index]);
+
+                                                  // setState(() {});
                                                 },
                                               ),
                                               const SizedBox(

@@ -6,11 +6,11 @@ class DatabaseSqflite {
   static dynamic database;
   static dynamic openFunction() async {
     database = openDatabase(
-      join(await getDatabasesPath(), "To-Do3.db"),
+      join(await getDatabasesPath(), "To-Do6.db"),
       version: 1,
       onCreate: (db, version) {
         db.execute(
-            "create table cards(card_no INTEGER PRIMARY KEY AUTOINCREMENT,title TEXT,description TEXT,date TEXT)");
+            "create table cards(card_no INTEGER PRIMARY KEY AUTOINCREMENT,title TEXT,description TEXT,date TEXT,cardstatus BOOLEAN)");
         // "create table cards(title TEXT PRIMARY KEY,description TEXT,date TEXT)");
       },
     );
@@ -27,6 +27,7 @@ class DatabaseSqflite {
         title: cardList[i]['title'],
         description: cardList[i]['description'],
         date: cardList[i]['date'],
+        cardstatus: (cardList[i]['cardstatus'] == 1)?true:false,
       );
     });
   }
@@ -65,14 +66,14 @@ class ToDoModelClass {
   String title;
   String description;
   String date;
-  // bool card_status;
+  bool cardstatus;
 
   ToDoModelClass({
     this.cardNo,
     required this.title,
     required this.description,
     required this.date,
-    // required this.card_status,
+    required this.cardstatus,
   });
 
   Map<String, dynamic> updatemap() {
@@ -81,7 +82,7 @@ class ToDoModelClass {
       "title": title,
       "description": description,
       "date": date,
-      // "card_status": card_status
+      "cardstatus": (cardstatus == true)?1:0,
     };
   }
 
@@ -91,7 +92,7 @@ class ToDoModelClass {
       "title": title,
       "description": description,
       "date": date,
-      // "card_status": card_status
+      "cardstatus": 0,
     };
   }
 }
