@@ -11,7 +11,6 @@ class DatabaseSqflite {
       onCreate: (db, version) {
         db.execute(
             "create table cards(card_no INTEGER PRIMARY KEY AUTOINCREMENT,title TEXT,description TEXT,date TEXT,cardstatus BOOLEAN)");
-        // "create table cards(title TEXT PRIMARY KEY,description TEXT,date TEXT)");
       },
     );
     return database;

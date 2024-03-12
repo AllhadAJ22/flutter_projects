@@ -5,7 +5,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 
 class TODOAppUI extends StatefulWidget {
-  const TODOAppUI({super.key});
+  const TODOAppUI(this.name, {super.key});
+  final String name;
 
   @override
   State<TODOAppUI> createState() => _TODOAppUIState();
@@ -16,7 +17,7 @@ class _TODOAppUIState extends State<TODOAppUI> {
   List cardList = [];
   void _getCards() async {
     cardList = await DatabaseSqflite.getCardList();
-    print(cardList[0].cardstatus);
+    // print(cardList[0].cardstatus);
     // print(cardList[1].cardstat-us);
     setState(() {});
   }
@@ -327,7 +328,7 @@ class _TODOAppUIState extends State<TODOAppUI> {
             Container(
               padding: const EdgeInsets.only(left: 35),
               child: Text(
-                "Allhad",
+                widget.name,
                 style: GoogleFonts.quicksand(
                   color: Colors.white,
                   fontWeight: FontWeight.w600,
