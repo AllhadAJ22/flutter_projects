@@ -1,4 +1,5 @@
 import 'package:advance_to_do/todo.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -298,6 +299,7 @@ class _TODOAppUIState extends State<TODOAppUI> {
   }
 
   bool flag = false;
+  int count = 0;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -387,205 +389,215 @@ class _TODOAppUIState extends State<TODOAppUI> {
                                       fontSize: 18),
                                 )),
                               )
-                            : ListView.builder(
-                                scrollDirection: Axis.vertical,
-                                itemCount: cardList.length,
-                                itemBuilder: (context, index) {
-                                  return Slidable(
-                                    closeOnScroll: true,
-                                    endActionPane: ActionPane(
-                                      extentRatio: 0.2,
-                                      motion: const DrawerMotion(),
-                                      children: [
-                                        Expanded(
-                                          child: Column(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceAround,
-                                            children: [
-                                              const SizedBox(
-                                                height: 5,
-                                              ),
-                                              GestureDetector(
-                                                onTap: () {
-                                                  editTask(cardList[index]);
-                                                },
-                                                child: Container(
-                                                  padding:
-                                                      const EdgeInsets.all(10),
-                                                  height: 40,
-                                                  width: 40,
-                                                  decoration: BoxDecoration(
-                                                    color: const Color.fromRGBO(
-                                                        89, 57, 241, 1),
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            20),
-                                                  ),
-                                                  child: const Icon(
-                                                    Icons.edit,
-                                                    color: Colors.white,
-                                                    size: 20,
-                                                  ),
-                                                ),
-                                              ),
-                                              const SizedBox(
-                                                height: 20,
-                                              ),
-                                              GestureDetector(
-                                                onTap: () {
-                                                  removeTasks(cardList[index]);
-                                                },
-                                                child: Container(
-                                                  padding:
-                                                      const EdgeInsets.all(5),
-                                                  height: 40,
-                                                  width: 40,
-                                                  decoration: BoxDecoration(
-                                                    color: const Color.fromRGBO(
-                                                        89, 57, 241, 1),
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            20),
-                                                  ),
-                                                  child: const Icon(
-                                                    Icons.delete,
-                                                    color: Colors.white,
-                                                    size: 20,
-                                                  ),
-                                                ),
-                                              ),
-                                              const SizedBox(
-                                                height: 5,
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                    key: ValueKey(index),
-                                    child: Container(
-                                      margin: const EdgeInsets.only(top: 10),
-                                      padding: const EdgeInsets.only(
-                                        left: 20,
-                                        // right: 20,
-                                        bottom: 20,
-                                        top: 20,
-                                      ),
-                                      decoration: BoxDecoration(
-                                        color: const Color.fromRGBO(
-                                            255, 255, 255, 1),
-                                        border: Border.all(
-                                            color: const Color.fromRGBO(
-                                                0, 0, 0, 0.05),
-                                            width: 0.5),
-                                        boxShadow: const [
-                                          BoxShadow(
-                                            offset: Offset(0, 4),
-                                            blurRadius: 20,
-                                            color:
-                                                Color.fromRGBO(0, 0, 0, 0.13),
-                                          )
-                                        ],
-                                        borderRadius:
-                                            const BorderRadius.all(Radius.zero),
-                                      ),
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
+                            : SlidableAutoCloseBehavior(
+                              child: ListView.builder(
+                                  scrollDirection: Axis.vertical,
+                                  itemCount: cardList.length,
+                                  itemBuilder: (context, index) {
+                                    return Slidable(
+                              
+                                      groupTag: '0',
+                                      // enabled: false,
+                                      // // groupTag: 'channels-actions',
+                                      // // dragStartBehavior: DragStartBehavior.start,
+                                      // closeOnScroll: false,
+                                      key: ValueKey(index),
+                                      endActionPane: ActionPane(
+                                        // dismissible:
+                                        //     DismissiblePane(onDismissed: () {}),
+                                        extentRatio: 0.2,
+                                        motion: const DrawerMotion(),
                                         children: [
-                                          Row(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.center,
-                                            children: [
-                                              Container(
-                                                height: 60,
-                                                width: 60,
-                                                decoration: const BoxDecoration(
-                                                  shape: BoxShape.circle,
-                                                  color: Color.fromRGBO(
-                                                      217, 217, 217, 1),
+                                          Expanded(
+                                            child: Column(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.spaceAround,
+                                              children: [
+                                                const SizedBox(
+                                                  height: 5,
                                                 ),
-                                                child: Image.asset(
-                                                    "assets/icon.png"),
-                                              ),
-                                              const SizedBox(
-                                                width: 20,
-                                              ),
-                                              SizedBox(
-                                                width: 222,
-                                                child: Column(
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
-                                                  children: [
-                                                    Text(
-                                                      cardList[index].title,
-                                                      style: GoogleFonts.inter(
-                                                        fontWeight:
-                                                            FontWeight.w500,
-                                                        fontSize: 15,
-                                                        color: Colors.black,
-                                                      ),
+                                                GestureDetector(
+                                                  onTap: () {
+                                                    editTask(cardList[index]);
+                                                  },
+                                                  child: Container(
+                                                    padding:
+                                                        const EdgeInsets.all(10),
+                                                    height: 40,
+                                                    width: 40,
+                                                    decoration: BoxDecoration(
+                                                      color: const Color.fromRGBO(
+                                                          89, 57, 241, 1),
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              20),
                                                     ),
-                                                    const SizedBox(
-                                                      height: 5,
+                                                    child: const Icon(
+                                                      Icons.edit,
+                                                      color: Colors.white,
+                                                      size: 20,
                                                     ),
-                                                    Text(
-                                                      cardList[index]
-                                                          .description,
-                                                      style: GoogleFonts.inter(
-                                                          color: const Color
-                                                              .fromRGBO(
-                                                              0, 0, 0, 0.7),
-                                                          fontWeight:
-                                                              FontWeight.w400,
-                                                          fontSize: 12),
-                                                    ),
-                                                    const SizedBox(
-                                                      height: 5,
-                                                    ),
-                                                    Text(
-                                                      cardList[index].date,
-                                                      style: GoogleFonts.inter(
-                                                          color: const Color
-                                                              .fromRGBO(
-                                                              0, 0, 0, 0.7),
-                                                          fontWeight:
-                                                              FontWeight.w400,
-                                                          fontSize: 12),
-                                                    ),
-                                                  ],
+                                                  ),
                                                 ),
-                                              ),
-                                              Checkbox(
-                                                shape: RoundedRectangleBorder(
-                                                  borderRadius:
-                                                      BorderRadius.circular(10),
+                                                const SizedBox(
+                                                  height: 20,
                                                 ),
-                                                activeColor: Colors.green,
-                                                value:
-                                                    cardList[index].cardstatus,
-                                                onChanged: (val) {
-                                                  cardList[index].cardstatus =
-                                                      !cardList[index]
-                                                          .cardstatus;
-                                                  print(cardList[index]
-                                                      .cardstatus);
-                                                  updateStatus(cardList[index]);
-
-                                                  // setState(() {});
-                                                },
-                                              ),
-                                              const SizedBox(
-                                                width: 20,
-                                              )
-                                            ],
+                                                GestureDetector(
+                                                  onTap: () {
+                                                    removeTasks(cardList[index]);
+                                                  },
+                                                  child: Container(
+                                                    padding:
+                                                        const EdgeInsets.all(5),
+                                                    height: 40,
+                                                    width: 40,
+                                                    decoration: BoxDecoration(
+                                                      color: const Color.fromRGBO(
+                                                          89, 57, 241, 1),
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              20),
+                                                    ),
+                                                    child: const Icon(
+                                                      Icons.delete,
+                                                      color: Colors.white,
+                                                      size: 20,
+                                                    ),
+                                                  ),
+                                                ),
+                                                const SizedBox(
+                                                  height: 5,
+                                                ),
+                                              ],
+                                            ),
                                           ),
                                         ],
                                       ),
-                                    ),
-                                  );
-                                },
-                              ),
+                              
+                                      child: Container(
+                                        margin: const EdgeInsets.only(top: 10),
+                                        padding: const EdgeInsets.only(
+                                          left: 20,
+                                          // right: 20,
+                                          bottom: 20,
+                                          top: 20,
+                                        ),
+                                        decoration: BoxDecoration(
+                                          color: const Color.fromRGBO(
+                                              255, 255, 255, 1),
+                                          border: Border.all(
+                                              color: const Color.fromRGBO(
+                                                  0, 0, 0, 0.05),
+                                              width: 0.5),
+                                          boxShadow: const [
+                                            BoxShadow(
+                                              offset: Offset(0, 4),
+                                              blurRadius: 20,
+                                              color:
+                                                  Color.fromRGBO(0, 0, 0, 0.13),
+                                            )
+                                          ],
+                                          borderRadius:
+                                              const BorderRadius.all(Radius.zero),
+                                        ),
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Row(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.center,
+                                              children: [
+                                                Container(
+                                                  height: 60,
+                                                  width: 60,
+                                                  decoration: const BoxDecoration(
+                                                    shape: BoxShape.circle,
+                                                    color: Color.fromRGBO(
+                                                        217, 217, 217, 1),
+                                                  ),
+                                                  child: Image.asset(
+                                                      "assets/icon.png"),
+                                                ),
+                                                const SizedBox(
+                                                  width: 20,
+                                                ),
+                                                SizedBox(
+                                                  width: 222,
+                                                  child: Column(
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment.start,
+                                                    children: [
+                                                      Text(
+                                                        cardList[index].title,
+                                                        style: GoogleFonts.inter(
+                                                          fontWeight:
+                                                              FontWeight.w500,
+                                                          fontSize: 15,
+                                                          color: Colors.black,
+                                                        ),
+                                                      ),
+                                                      const SizedBox(
+                                                        height: 5,
+                                                      ),
+                                                      Text(
+                                                        cardList[index]
+                                                            .description,
+                                                        style: GoogleFonts.inter(
+                                                            color: const Color
+                                                                .fromRGBO(
+                                                                0, 0, 0, 0.7),
+                                                            fontWeight:
+                                                                FontWeight.w400,
+                                                            fontSize: 12),
+                                                      ),
+                                                      const SizedBox(
+                                                        height: 5,
+                                                      ),
+                                                      Text(
+                                                        cardList[index].date,
+                                                        style: GoogleFonts.inter(
+                                                            color: const Color
+                                                                .fromRGBO(
+                                                                0, 0, 0, 0.7),
+                                                            fontWeight:
+                                                                FontWeight.w400,
+                                                            fontSize: 12),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+                                                Checkbox(
+                                                  shape: RoundedRectangleBorder(
+                                                    borderRadius:
+                                                        BorderRadius.circular(10),
+                                                  ),
+                                                  activeColor: Colors.green,
+                                                  value:
+                                                      cardList[index].cardstatus,
+                                                  onChanged: (val) {
+                                                    cardList[index].cardstatus =
+                                                        !cardList[index]
+                                                            .cardstatus;
+                                                    print(cardList[index]
+                                                        .cardstatus);
+                                                    updateStatus(cardList[index]);
+                              
+                                                    // setState(() {});
+                                                  },
+                                                ),
+                                                const SizedBox(
+                                                  width: 20,
+                                                )
+                                              ],
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                ),
+                            ),
                       ),
                     )
                   ],
