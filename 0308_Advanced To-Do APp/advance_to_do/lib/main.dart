@@ -1,4 +1,4 @@
-import 'package:advance_to_do/advanceToDo.dart';
+//main file
 import 'package:advance_to_do/login.dart';
 import 'package:flutter/material.dart';
 
@@ -10,7 +10,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return const MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: Login(),
+      //call the login page
+      home: Login(),  
     );
   }
 }

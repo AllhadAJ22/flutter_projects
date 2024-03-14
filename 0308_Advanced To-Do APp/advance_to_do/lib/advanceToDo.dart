@@ -1,5 +1,4 @@
-import 'package:advance_to_do/todo.dart';
-import 'package:flutter/gestures.dart';
+import 'package:advance_to_do/data_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -16,10 +15,10 @@ class TODOAppUI extends StatefulWidget {
 class _TODOAppUIState extends State<TODOAppUI> {
   dynamic database;
   List cardList = [];
+
+  //call to get the the data in local list named cardList
   void _getCards() async {
     cardList = await DatabaseSqflite.getCardList();
-    // print(cardList[0].cardstatus);
-    // print(cardList[1].cardstat-us);
     setState(() {});
   }
 
@@ -29,12 +28,16 @@ class _TODOAppUIState extends State<TODOAppUI> {
     super.initState();
   }
 
+  //GlobalKey for TextFields in the BottomSheet
+  final GlobalKey _formKey = GlobalKey<FormState>();
+
+  //controllers for TextFields in the BottomSheet
   final TextEditingController dateController = TextEditingController();
   final TextEditingController titleController = TextEditingController();
   final TextEditingController descriptionController = TextEditingController();
 
-  final _formKey = GlobalKey<FormState>();
-  Future<void> showBottomSht(bool doEdit,
+  //showBottomSheet will appear when anyone click on FloatingActionButton
+  Future<void> showBottomSheet(bool doEdit,
       [ToDoModelClass? todoModelObj]) async {
     await showModalBottomSheet(
       isScrollControlled: true,
@@ -74,103 +77,67 @@ class _TODOAppUIState extends State<TODOAppUI> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      "Title",
-                      style: GoogleFonts.quicksand(
-                        color: const Color.fromRGBO(89, 57, 241, 1),
-                        fontWeight: FontWeight.w400,
-                        fontSize: 15,
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 3,
-                    ),
+                    //TextFormField for Title
                     TextFormField(
                       controller: titleController,
                       decoration: InputDecoration(
+                        label: const Text("Enter Title"),
                         hintText: "Enter Title",
                         focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(12),
                           borderSide: const BorderSide(
-                            color: Color.fromRGBO(89, 57, 241, 1),
+                            color: Color.fromRGBO(107, 112, 92, 1),
                           ),
                         ),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(12),
                         ),
-                        errorBorder: OutlineInputBorder(
-                          borderSide: const BorderSide(color: Colors.red),
-                          borderRadius: BorderRadius.circular(12),
-                        ),
                       ),
                     ),
                     const SizedBox(height: 15),
-                    Text(
-                      "Description",
-                      style: GoogleFonts.quicksand(
-                        color: const Color.fromRGBO(89, 57, 241, 1),
-                        fontWeight: FontWeight.w400,
-                        fontSize: 15,
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 3,
-                    ),
+
+                    //TextFormField for Description
                     TextFormField(
                       controller: descriptionController,
-                      maxLines: 4,
+                      maxLines: 2,
                       decoration: InputDecoration(
+                        label: const Text("Enter Description"),
                         hintText: "Enter Description",
                         focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(12),
                           borderSide: const BorderSide(
-                            color: Color.fromRGBO(89, 57, 241, 1),
+                            color: Color.fromRGBO(107, 112, 92, 1),
                           ),
                         ),
                         border: OutlineInputBorder(
                           borderSide: const BorderSide(),
                           borderRadius: BorderRadius.circular(12),
                         ),
-                        errorBorder: OutlineInputBorder(
-                          borderSide: const BorderSide(color: Colors.red),
-                          borderRadius: BorderRadius.circular(12),
-                        ),
                       ),
                     ),
                     const SizedBox(height: 15),
-                    Text(
-                      "Date",
-                      style: GoogleFonts.quicksand(
-                        color: const Color.fromRGBO(89, 57, 241, 1),
-                        fontWeight: FontWeight.w400,
-                        fontSize: 15,
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 3,
-                    ),
+
+                    //TextFormField for Datepicker
                     TextFormField(
                       controller: dateController,
                       readOnly: true,
                       decoration: InputDecoration(
+                        label: const Text("Enter Date"),
                         hintText: "Enter Date",
                         suffixIcon: const Icon(Icons.date_range_rounded),
                         focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(12),
                           borderSide: const BorderSide(
-                            color: Color.fromRGBO(89, 57, 241, 1),
+                            color: Color.fromRGBO(107, 112, 92, 1),
                           ),
                         ),
                         border: OutlineInputBorder(
                           borderSide: const BorderSide(),
                           borderRadius: BorderRadius.circular(12),
                         ),
-                        errorBorder: OutlineInputBorder(
-                          borderSide: const BorderSide(color: Colors.red),
-                          borderRadius: BorderRadius.circular(12),
-                        ),
                       ),
                       onTap: () async {
+                        //this will show the calendar
                         DateTime? pickedDate = await showDatePicker(
                           context: context,
                           initialDate: DateTime.now(),
@@ -194,6 +161,8 @@ class _TODOAppUIState extends State<TODOAppUI> {
                 margin: const EdgeInsets.all(10),
                 decoration:
                     BoxDecoration(borderRadius: BorderRadius.circular(30)),
+
+                //submit button to add the tasks
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
                     shape: RoundedRectangleBorder(
@@ -201,11 +170,30 @@ class _TODOAppUIState extends State<TODOAppUI> {
                         13,
                       ),
                     ),
-                    backgroundColor: const Color.fromRGBO(89, 57, 241, 1),
+                    backgroundColor: const Color.fromRGBO(107, 112, 92, 1),
                   ),
                   onPressed: () {
-                    doEdit ? submit(doEdit, todoModelObj) : submit(doEdit);
-                    Navigator.of(context).pop();
+                    //it will show the AlertDialog/AlartBox if any field is empty
+                    if (titleController.text.trim().isEmpty ||
+                        descriptionController.text.trim().isEmpty ||
+                        dateController.text.trim().isEmpty) {
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) => AlertDialog(
+                          title: const Text('Alert'),
+                          content: const Text('Add all the details'),
+                          actions: [
+                            TextButton(
+                              onPressed: () => Navigator.pop(context, 'OK'),
+                              child: const Text('OK'),
+                            ),
+                          ],
+                        ),
+                      );
+                    } else {
+                      doEdit ? submit(doEdit, todoModelObj) : submit(doEdit);
+                      Navigator.of(context).pop();
+                    }
                   },
                   child: Text(
                     "Submit",
@@ -223,50 +211,44 @@ class _TODOAppUIState extends State<TODOAppUI> {
     );
   }
 
-  List colorList = [
-    const Color.fromRGBO(250, 232, 232, 1),
-    const Color.fromRGBO(232, 237, 250, 1),
-    const Color.fromRGBO(250, 249, 232, 1),
-    const Color.fromRGBO(250, 232, 250, 1),
-  ];
-
+  //this method will called after clicking submit button on buttomsheet
   void submit(bool doedit, [ToDoModelClass? toDoModelObj]) {
-    if (titleController.text.trim().isNotEmpty &&
-        descriptionController.text.trim().isNotEmpty &&
-        dateController.text.trim().isNotEmpty) {
-      if (!doedit) {
-        DatabaseSqflite.insertCard(
-          ToDoModelClass(
-            title: titleController.text.trim(),
-            description: descriptionController.text.trim(),
-            date: dateController.text.trim(),
-            cardstatus: false,
-          ),
-        );
-        _getCards();
-      } else {
-        int? no = toDoModelObj?.cardNo;
-        // print(toDoModelObj?.card_no);
-        toDoModelObj!.date = dateController.text.trim();
-        toDoModelObj.title = titleController.text.trim();
-        toDoModelObj.description = descriptionController.text.trim();
-        DatabaseSqflite.updateCard(
-          ToDoModelClass(
-            cardNo: no,
-            title: titleController.text.trim(),
-            description: descriptionController.text.trim(),
-            date: dateController.text.trim(),
-            cardstatus: toDoModelObj.cardstatus,
-          ),
-        );
-        _getCards();
-      }
+    if (!doedit) {
+      //This will add the task in the sqflite database
+      DatabaseSqflite.insertCard(
+        ToDoModelClass(
+          title: titleController.text.trim(),
+          description: descriptionController.text.trim(),
+          date: dateController.text.trim(),
+          cardstatus: false,
+        ),
+      );
+      _getCards();
+    } else {
+      int? no = toDoModelObj?.cardNo;
+      toDoModelObj!.date = dateController.text.trim();
+      toDoModelObj.title = titleController.text.trim();
+      toDoModelObj.description = descriptionController.text.trim();
+
+      //This will update the task in the sqflite database
+      DatabaseSqflite.updateCard(
+        ToDoModelClass(
+          cardNo: no,
+          title: titleController.text.trim(),
+          description: descriptionController.text.trim(),
+          date: dateController.text.trim(),
+          cardstatus: toDoModelObj.cardstatus,
+        ),
+      );
+      _getCards();
     }
+
+    //to clear the controllers
     clearController();
   }
 
+  //this method well bw called when anyone want to mark the task as done using checkbox
   void updateStatus(ToDoModelClass obj) {
-    // int? no = obj.cardNo;
     DatabaseSqflite.updateCard(
       ToDoModelClass(
         cardNo: obj.cardNo,
@@ -279,31 +261,34 @@ class _TODOAppUIState extends State<TODOAppUI> {
     _getCards();
   }
 
+  //this method is to clear the controllers
   void clearController() {
     titleController.clear();
     descriptionController.clear();
     dateController.clear();
   }
 
+  //this method will be called when cliced on delete button of any task
   void removeTasks(ToDoModelClass toDoModelObj) async {
-    // print(toDoModelObj.cardNo);
     await DatabaseSqflite.deleteCard(toDoModelObj);
     _getCards();
   }
 
+  //this method will be called when cliced on update button of any task
   void editTask(ToDoModelClass toDoModelObj) {
     titleController.text = toDoModelObj.title;
     descriptionController.text = toDoModelObj.description;
     dateController.text = toDoModelObj.date;
-    showBottomSht(true, toDoModelObj);
+    showBottomSheet(true, toDoModelObj);
   }
 
+  //flag for edit task /add new task
   bool flag = false;
-  int count = 0;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color.fromRGBO(111, 81, 255, 1),
+      backgroundColor: const Color.fromRGBO(107, 112, 92, 1),
       body: Padding(
         padding: const EdgeInsets.only(
           top: 100,
@@ -379,7 +364,8 @@ class _TODOAppUIState extends State<TODOAppUI> {
                           ),
                         ),
                         child: (cardList.isEmpty)
-                            ? SizedBox(
+                            ? //if there is no task added
+                            SizedBox(
                                 width: double.maxFinite,
                                 child: Center(
                                     child: Text(
@@ -389,22 +375,18 @@ class _TODOAppUIState extends State<TODOAppUI> {
                                       fontSize: 18),
                                 )),
                               )
-                            : SlidableAutoCloseBehavior(
-                              child: ListView.builder(
+                            :
+                            //It will show all the added tasks
+                            SlidableAutoCloseBehavior(
+                                child: ListView.builder(
                                   scrollDirection: Axis.vertical,
                                   itemCount: cardList.length,
                                   itemBuilder: (context, index) {
+                                    //slidable cards/tasks
                                     return Slidable(
-                              
                                       groupTag: '0',
-                                      // enabled: false,
-                                      // // groupTag: 'channels-actions',
-                                      // // dragStartBehavior: DragStartBehavior.start,
-                                      // closeOnScroll: false,
                                       key: ValueKey(index),
                                       endActionPane: ActionPane(
-                                        // dismissible:
-                                        //     DismissiblePane(onDismissed: () {}),
                                         extentRatio: 0.2,
                                         motion: const DrawerMotion(),
                                         children: [
@@ -416,18 +398,22 @@ class _TODOAppUIState extends State<TODOAppUI> {
                                                 const SizedBox(
                                                   height: 5,
                                                 ),
+
+                                                //EditButton / Icon
                                                 GestureDetector(
                                                   onTap: () {
                                                     editTask(cardList[index]);
                                                   },
                                                   child: Container(
                                                     padding:
-                                                        const EdgeInsets.all(10),
+                                                        const EdgeInsets.all(
+                                                            10),
                                                     height: 40,
                                                     width: 40,
                                                     decoration: BoxDecoration(
-                                                      color: const Color.fromRGBO(
-                                                          89, 57, 241, 1),
+                                                      color:
+                                                          const Color.fromRGBO(
+                                                              107, 112, 92, 1),
                                                       borderRadius:
                                                           BorderRadius.circular(
                                                               20),
@@ -442,9 +428,12 @@ class _TODOAppUIState extends State<TODOAppUI> {
                                                 const SizedBox(
                                                   height: 20,
                                                 ),
+
+                                                //DeleteButton/Iocn
                                                 GestureDetector(
                                                   onTap: () {
-                                                    removeTasks(cardList[index]);
+                                                    removeTasks(
+                                                        cardList[index]);
                                                   },
                                                   child: Container(
                                                     padding:
@@ -452,8 +441,9 @@ class _TODOAppUIState extends State<TODOAppUI> {
                                                     height: 40,
                                                     width: 40,
                                                     decoration: BoxDecoration(
-                                                      color: const Color.fromRGBO(
-                                                          89, 57, 241, 1),
+                                                      color:
+                                                          const Color.fromRGBO(
+                                                              107, 112, 92, 1),
                                                       borderRadius:
                                                           BorderRadius.circular(
                                                               20),
@@ -473,12 +463,10 @@ class _TODOAppUIState extends State<TODOAppUI> {
                                           ),
                                         ],
                                       ),
-                              
                                       child: Container(
                                         margin: const EdgeInsets.only(top: 10),
                                         padding: const EdgeInsets.only(
                                           left: 20,
-                                          // right: 20,
                                           bottom: 20,
                                           top: 20,
                                         ),
@@ -495,10 +483,10 @@ class _TODOAppUIState extends State<TODOAppUI> {
                                               blurRadius: 20,
                                               color:
                                                   Color.fromRGBO(0, 0, 0, 0.13),
-                                            )
+                                            ),
                                           ],
-                                          borderRadius:
-                                              const BorderRadius.all(Radius.zero),
+                                          borderRadius: const BorderRadius.all(
+                                              Radius.zero),
                                         ),
                                         child: Column(
                                           crossAxisAlignment:
@@ -511,7 +499,8 @@ class _TODOAppUIState extends State<TODOAppUI> {
                                                 Container(
                                                   height: 60,
                                                   width: 60,
-                                                  decoration: const BoxDecoration(
+                                                  decoration:
+                                                      const BoxDecoration(
                                                     shape: BoxShape.circle,
                                                     color: Color.fromRGBO(
                                                         217, 217, 217, 1),
@@ -526,11 +515,14 @@ class _TODOAppUIState extends State<TODOAppUI> {
                                                   width: 222,
                                                   child: Column(
                                                     crossAxisAlignment:
-                                                        CrossAxisAlignment.start,
+                                                        CrossAxisAlignment
+                                                            .start,
                                                     children: [
+                                                      //Show the Title of the Task
                                                       Text(
                                                         cardList[index].title,
-                                                        style: GoogleFonts.inter(
+                                                        style:
+                                                            GoogleFonts.inter(
                                                           fontWeight:
                                                               FontWeight.w500,
                                                           fontSize: 15,
@@ -540,6 +532,8 @@ class _TODOAppUIState extends State<TODOAppUI> {
                                                       const SizedBox(
                                                         height: 5,
                                                       ),
+
+                                                      //Show the Discription of the task
                                                       Text(
                                                         cardList[index]
                                                             .description,
@@ -554,6 +548,8 @@ class _TODOAppUIState extends State<TODOAppUI> {
                                                       const SizedBox(
                                                         height: 5,
                                                       ),
+
+                                                      //Show the due date of that task
                                                       Text(
                                                         cardList[index].date,
                                                         style: GoogleFonts.inter(
@@ -567,23 +563,24 @@ class _TODOAppUIState extends State<TODOAppUI> {
                                                     ],
                                                   ),
                                                 ),
+
+                                                //checkbox to mark the done task
                                                 Checkbox(
                                                   shape: RoundedRectangleBorder(
                                                     borderRadius:
-                                                        BorderRadius.circular(10),
+                                                        BorderRadius.circular(
+                                                            10),
                                                   ),
                                                   activeColor: Colors.green,
-                                                  value:
-                                                      cardList[index].cardstatus,
+                                                  value: cardList[index]
+                                                      .cardstatus,
                                                   onChanged: (val) {
                                                     cardList[index].cardstatus =
                                                         !cardList[index]
                                                             .cardstatus;
-                                                    print(cardList[index]
-                                                        .cardstatus);
-                                                    updateStatus(cardList[index]);
-                              
-                                                    // setState(() {});
+
+                                                    updateStatus(
+                                                        cardList[index]);
                                                   },
                                                 ),
                                                 const SizedBox(
@@ -597,7 +594,7 @@ class _TODOAppUIState extends State<TODOAppUI> {
                                     );
                                   },
                                 ),
-                            ),
+                              ),
                       ),
                     )
                   ],
@@ -607,10 +604,12 @@ class _TODOAppUIState extends State<TODOAppUI> {
           ],
         ),
       ),
+
+      // FloatingActionButton to add the task
       floatingActionButton: FloatingActionButton(
-        backgroundColor: const Color.fromRGBO(89, 57, 241, 1),
+        backgroundColor: const Color.fromRGBO(107, 112, 92, 1),
         onPressed: () async {
-          await showBottomSht(false);
+          await showBottomSheet(false);
         },
         child: const Icon(
           size: 50,
