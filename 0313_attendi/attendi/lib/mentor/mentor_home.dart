@@ -6,79 +6,15 @@ import 'package:flutter/material.dart';
 
 import 'package:google_fonts/google_fonts.dart';
 
-class StudentsList extends StatefulWidget {
-  const StudentsList({super.key});
+class MentorHome extends StatefulWidget {
+  const MentorHome({super.key});
 
   @override
-  State createState() => _StudentsListState();
+  State createState() => _MentorHomeState();
 }
 
-class _StudentsListState extends State<StudentsList> {
-  List studentlsit = [
-    StudentModelClass(
-        batchName: "batch1",
-        name: "Aniket",
-        rollNo: 101,
-        phoneNo: 1234567895,
-        gender: true,
-        email: "email"),
-    StudentModelClass(
-        batchName: "batch1",
-        name: "Allhad",
-        rollNo: 101,
-        phoneNo: 1234567895,
-        gender: true,
-        email: "email"),
-    StudentModelClass(
-        batchName: "batch1",
-        name: "Atharva",
-        rollNo: 101,
-        phoneNo: 1234567895,
-        gender: true,
-        email: "email"),
-    StudentModelClass(
-        batchName: "batch1",
-        name: "Gaurav",
-        rollNo: 101,
-        phoneNo: 1234567895,
-        gender: true,
-        email: "email"),
-    StudentModelClass(
-        batchName: "batch1",
-        name: "Prasad",
-        rollNo: 101,
-        phoneNo: 1234567895,
-        gender: true,
-        email: "email"),
-    StudentModelClass(
-        batchName: "batch1",
-        name: "sumant",
-        rollNo: 101,
-        phoneNo: 1234567895,
-        gender: true,
-        email: "email"),
-    StudentModelClass(
-        batchName: "batch1",
-        name: "Aniket",
-        rollNo: 101,
-        phoneNo: 1234567895,
-        gender: true,
-        email: "email"),
-    StudentModelClass(
-        batchName: "batch1",
-        name: "rahul",
-        rollNo: 101,
-        phoneNo: 1234567895,
-        gender: true,
-        email: "email"),
-  ];
-  studentInfo(StudentModelClass obj) {
-    Navigator.push(context, MaterialPageRoute(builder: (context) {
-      return StudentDetails(obj);
-    }));
-  }
-
-  GlobalKey<ScaffoldState> _scaffoldState = GlobalKey<ScaffoldState>();
+class _MentorHomeState extends State<MentorHome> {
+  final GlobalKey<ScaffoldState> _scaffoldState = GlobalKey<ScaffoldState>();
 
   @override
   Widget build(BuildContext context) {
@@ -107,7 +43,7 @@ class _StudentsListState extends State<StudentsList> {
             ),
             ListTile(
               title: Text(
-                'All Batches',
+                'MY Batches',
                 style: GoogleFonts.poppins(
                   textStyle: const TextStyle(
                     fontWeight: FontWeight.w700,
@@ -121,21 +57,7 @@ class _StudentsListState extends State<StudentsList> {
             ),
             ListTile(
               title: Text(
-                'Add Batches',
-                style: GoogleFonts.poppins(
-                  textStyle: const TextStyle(
-                    fontWeight: FontWeight.w700,
-                    fontSize: 18,
-                  ),
-                ),
-              ),
-              onTap: () {
-                Navigator.pop(context);
-              },
-            ),
-            ListTile(
-              title: Text(
-                'All Students',
+                'batch Students',
                 style: GoogleFonts.poppins(
                   textStyle: const TextStyle(
                     fontWeight: FontWeight.w700,
@@ -271,7 +193,7 @@ class _StudentsListState extends State<StudentsList> {
                       top: 45,
                     ),
                     child: Text(
-                      "Students Details",
+                      "Mentor",
                       style: GoogleFonts.poppins(
                         textStyle: const TextStyle(
                           fontWeight: FontWeight.w600,
@@ -284,69 +206,11 @@ class _StudentsListState extends State<StudentsList> {
               ),
             ),
             SizedBox(
-              height: 450,
+              height: 500,
               // margin: const EdgeInsets.all(20),
-              child: ListView.builder(
-                  itemCount: studentlsit.length,
-                  scrollDirection: Axis.vertical,
-                  itemBuilder: (context, index) {
-                    return GestureDetector(
-                      child: Container(
-                        decoration: BoxDecoration(
-                          color: const Color.fromRGBO(217, 217, 217, 0.42),
-                          borderRadius: BorderRadius.circular(50),
-                          boxShadow: const [
-                            BoxShadow(
-                                color: Color.fromRGBO(217, 217, 217, 0.42),
-                                offset: Offset(-2, -2),
-                                spreadRadius: 5)
-                          ],
-                        ),
-                        padding: const EdgeInsets.only(top: 12),
-                        margin: const EdgeInsets.only(
-                            left: 45, right: 45, bottom: 22),
-                        height: 50,
-                        child: Text(
-                          studentlsit[index].name,
-                          textAlign: TextAlign.center,
-                          style: GoogleFonts.poppins(
-                            textStyle: const TextStyle(
-                              fontWeight: FontWeight.w500,
-                              fontSize: 15,
-                            ),
-                          ),
-                        ),
-                      ),
-                      onTap: () {
-                        studentInfo(studentlsit[index]);
-                      },
-                    );
-                  }),
             ),
             const SizedBox(
               height: 20,
-            ),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context) {
-                  return const AddStudent(null);
-                }));
-              },
-              style: ElevatedButton.styleFrom(
-                fixedSize: const Size(314, 55),
-                backgroundColor: const Color.fromRGBO(27, 182, 182, 1),
-              ),
-              child: Text(
-                "Add New Student",
-                textAlign: TextAlign.center,
-                style: GoogleFonts.poppins(
-                  textStyle: const TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.w700,
-                    fontSize: 18,
-                  ),
-                ),
-              ),
             ),
             Padding(
               padding: const EdgeInsets.only(top: 30),
@@ -360,43 +224,4 @@ class _StudentsListState extends State<StudentsList> {
       ),
     );
   }
-}
-
-class StudentModelClass {
-  String batchName;
-  String name;
-  int rollNo;
-  int phoneNo;
-  bool gender;
-  String email;
-
-  StudentModelClass({
-    required this.batchName,
-    required this.name,
-    required this.rollNo,
-    required this.phoneNo,
-    required this.gender,
-    required this.email,
-  });
-
-  Map<String, dynamic> updatemap() {
-    return {
-      "batchName": batchName,
-      "name": name,
-      "rollNo": rollNo,
-      "phoneNo": phoneNo,
-      "gender": (gender == true) ? 1 : 0,
-      "email": email
-    };
-  }
-
-  // Map<String, dynamic> workmap() {
-  //   return {
-  //     // "card_no": card_no,
-  //     "title": title,
-  //     "description": description,
-  //     "date": date,
-  //     "cardstatus": 0,
-  //   };
-  // }
 }

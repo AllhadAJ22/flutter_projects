@@ -1,10 +1,8 @@
 // ignore_for_file: depend_on_referenced_packages
 
 import 'package:attendi/student/student_list.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:dropdown_textfield/dropdown_textfield.dart';
-import 'package:flutter/widgets.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class AddStudent extends StatefulWidget {
@@ -132,7 +130,7 @@ class _AddStudentState extends State<AddStudent> {
                           // searchDecoration: const InputDecoration(hintText: "bdvjhdb"),
                           controller: _batch,
                           dropDownItemCount: 2,
-                          
+
                           dropDownList: const [
                             DropDownValueModel(name: "batch1", value: "batch1"),
                             DropDownValueModel(name: "batch2", value: "batch2"),

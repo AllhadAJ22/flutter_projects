@@ -1,84 +1,23 @@
 // ignore_for_file: depend_on_referenced_packages
 
+import 'package:attendi/batch/add_details.dart';
+import 'package:attendi/batch/all_batches.dart';
 import 'package:attendi/student/add_students.dart';
 import 'package:attendi/student/student_details.dart';
+import 'package:attendi/student/student_list.dart';
 import 'package:flutter/material.dart';
 
 import 'package:google_fonts/google_fonts.dart';
 
-class StudentsList extends StatefulWidget {
-  const StudentsList({super.key});
+class AdminHome extends StatefulWidget {
+  const AdminHome({super.key});
 
   @override
-  State createState() => _StudentsListState();
+  State createState() => _AdminHomeState();
 }
 
-class _StudentsListState extends State<StudentsList> {
-  List studentlsit = [
-    StudentModelClass(
-        batchName: "batch1",
-        name: "Aniket",
-        rollNo: 101,
-        phoneNo: 1234567895,
-        gender: true,
-        email: "email"),
-    StudentModelClass(
-        batchName: "batch1",
-        name: "Allhad",
-        rollNo: 101,
-        phoneNo: 1234567895,
-        gender: true,
-        email: "email"),
-    StudentModelClass(
-        batchName: "batch1",
-        name: "Atharva",
-        rollNo: 101,
-        phoneNo: 1234567895,
-        gender: true,
-        email: "email"),
-    StudentModelClass(
-        batchName: "batch1",
-        name: "Gaurav",
-        rollNo: 101,
-        phoneNo: 1234567895,
-        gender: true,
-        email: "email"),
-    StudentModelClass(
-        batchName: "batch1",
-        name: "Prasad",
-        rollNo: 101,
-        phoneNo: 1234567895,
-        gender: true,
-        email: "email"),
-    StudentModelClass(
-        batchName: "batch1",
-        name: "sumant",
-        rollNo: 101,
-        phoneNo: 1234567895,
-        gender: true,
-        email: "email"),
-    StudentModelClass(
-        batchName: "batch1",
-        name: "Aniket",
-        rollNo: 101,
-        phoneNo: 1234567895,
-        gender: true,
-        email: "email"),
-    StudentModelClass(
-        batchName: "batch1",
-        name: "rahul",
-        rollNo: 101,
-        phoneNo: 1234567895,
-        gender: true,
-        email: "email"),
-  ];
-  studentInfo(StudentModelClass obj) {
-    Navigator.push(context, MaterialPageRoute(builder: (context) {
-      return StudentDetails(obj);
-    }));
-  }
-
-  GlobalKey<ScaffoldState> _scaffoldState = GlobalKey<ScaffoldState>();
+class _AdminHomeState extends State<AdminHome> {
+  final GlobalKey<ScaffoldState> _scaffoldState = GlobalKey<ScaffoldState>();
 
   @override
   Widget build(BuildContext context) {
@@ -117,6 +56,12 @@ class _StudentsListState extends State<StudentsList> {
               ),
               onTap: () {
                 Navigator.pop(context);
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const BatchesHome(),
+                  ),
+                );
               },
             ),
             ListTile(
@@ -131,6 +76,12 @@ class _StudentsListState extends State<StudentsList> {
               ),
               onTap: () {
                 Navigator.pop(context);
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const BatchesDetails(),
+                  ),
+                );
               },
             ),
             ListTile(
@@ -145,6 +96,12 @@ class _StudentsListState extends State<StudentsList> {
               ),
               onTap: () {
                 Navigator.pop(context);
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const StudentsList(),
+                  ),
+                );
               },
             ),
             ListTile(
@@ -159,6 +116,12 @@ class _StudentsListState extends State<StudentsList> {
               ),
               onTap: () {
                 Navigator.pop(context);
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const AddStudent(null),
+                  ),
+                );
               },
             ),
             ListTile(
@@ -271,7 +234,7 @@ class _StudentsListState extends State<StudentsList> {
                       top: 45,
                     ),
                     child: Text(
-                      "Students Details",
+                      "Admin",
                       style: GoogleFonts.poppins(
                         textStyle: const TextStyle(
                           fontWeight: FontWeight.w600,
@@ -284,69 +247,11 @@ class _StudentsListState extends State<StudentsList> {
               ),
             ),
             SizedBox(
-              height: 450,
+              height: 500,
               // margin: const EdgeInsets.all(20),
-              child: ListView.builder(
-                  itemCount: studentlsit.length,
-                  scrollDirection: Axis.vertical,
-                  itemBuilder: (context, index) {
-                    return GestureDetector(
-                      child: Container(
-                        decoration: BoxDecoration(
-                          color: const Color.fromRGBO(217, 217, 217, 0.42),
-                          borderRadius: BorderRadius.circular(50),
-                          boxShadow: const [
-                            BoxShadow(
-                                color: Color.fromRGBO(217, 217, 217, 0.42),
-                                offset: Offset(-2, -2),
-                                spreadRadius: 5)
-                          ],
-                        ),
-                        padding: const EdgeInsets.only(top: 12),
-                        margin: const EdgeInsets.only(
-                            left: 45, right: 45, bottom: 22),
-                        height: 50,
-                        child: Text(
-                          studentlsit[index].name,
-                          textAlign: TextAlign.center,
-                          style: GoogleFonts.poppins(
-                            textStyle: const TextStyle(
-                              fontWeight: FontWeight.w500,
-                              fontSize: 15,
-                            ),
-                          ),
-                        ),
-                      ),
-                      onTap: () {
-                        studentInfo(studentlsit[index]);
-                      },
-                    );
-                  }),
             ),
             const SizedBox(
               height: 20,
-            ),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context) {
-                  return const AddStudent(null);
-                }));
-              },
-              style: ElevatedButton.styleFrom(
-                fixedSize: const Size(314, 55),
-                backgroundColor: const Color.fromRGBO(27, 182, 182, 1),
-              ),
-              child: Text(
-                "Add New Student",
-                textAlign: TextAlign.center,
-                style: GoogleFonts.poppins(
-                  textStyle: const TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.w700,
-                    fontSize: 18,
-                  ),
-                ),
-              ),
             ),
             Padding(
               padding: const EdgeInsets.only(top: 30),
@@ -360,43 +265,4 @@ class _StudentsListState extends State<StudentsList> {
       ),
     );
   }
-}
-
-class StudentModelClass {
-  String batchName;
-  String name;
-  int rollNo;
-  int phoneNo;
-  bool gender;
-  String email;
-
-  StudentModelClass({
-    required this.batchName,
-    required this.name,
-    required this.rollNo,
-    required this.phoneNo,
-    required this.gender,
-    required this.email,
-  });
-
-  Map<String, dynamic> updatemap() {
-    return {
-      "batchName": batchName,
-      "name": name,
-      "rollNo": rollNo,
-      "phoneNo": phoneNo,
-      "gender": (gender == true) ? 1 : 0,
-      "email": email
-    };
-  }
-
-  // Map<String, dynamic> workmap() {
-  //   return {
-  //     // "card_no": card_no,
-  //     "title": title,
-  //     "description": description,
-  //     "date": date,
-  //     "cardstatus": 0,
-  //   };
-  // }
 }
