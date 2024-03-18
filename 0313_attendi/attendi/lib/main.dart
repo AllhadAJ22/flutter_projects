@@ -1,8 +1,10 @@
+import 'package:attendi/database/database.dart';
 import 'package:flutter/material.dart';
 import 'splash_screen1.dart';
 
 void main() {
   runApp(const MyApp());
+  DatabaseSqflite.insertlogin();
 }
 
 class MyApp extends StatelessWidget {

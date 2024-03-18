@@ -1,6 +1,3 @@
-// ignore_for_file: depend_on_referenced_packages
-
-import 'package:attendi/batch/all_batches.dart';
 import 'package:attendi/mentor/mentor_home.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';

@@ -1,6 +1,7 @@
 // ignore_for_file: depend_on_referenced_packages
 
-import 'package:attendi/batch/batches_model.dart';
+import 'package:attendi/admin/attendance_page1.dart';
+import 'package:attendi/model_classes/batches_model.dart';
 import 'package:attendi/student/student_list.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -8,14 +9,14 @@ import 'package:google_fonts/google_fonts.dart';
 class BatchInfo extends StatefulWidget {
   const BatchInfo(this.batchObj, {super.key});
 
-  final Batch batchObj;
+  final Batches batchObj;
 
   @override
   State createState() => _BatchInfoState();
 }
 
 class _BatchInfoState extends State<BatchInfo> {
-  Batch? batchObj;
+  // Batches? batchObj;
 
   @override
   Widget build(BuildContext context) {
@@ -226,7 +227,9 @@ class _BatchInfoState extends State<BatchInfo> {
           ),
           GestureDetector(
             onTap: () {
-              Navigator.pop(context);
+              Navigator.push(context, MaterialPageRoute(builder: (context) {
+                return Attendance(batchobj: widget.batchObj);
+              }));
             },
             child: Container(
               height: 50,
@@ -264,7 +267,7 @@ class _BatchInfoState extends State<BatchInfo> {
               Navigator.push(
                 context,
                 MaterialPageRoute(builder: (context) {
-                  return const StudentsList();
+                  return StudentsList(batchobj: widget.batchObj);
                 }),
               );
               // Navigator.pop(context);
@@ -285,7 +288,7 @@ class _BatchInfoState extends State<BatchInfo> {
               ),
               child: Center(
                 child: Text(
-                  "Student Details",
+                  "Student List",
                   style: GoogleFonts.quicksand(
                     textStyle: const TextStyle(
                       color: Colors.white,
@@ -303,7 +306,7 @@ class _BatchInfoState extends State<BatchInfo> {
   }
 }
 
-Batch? batchObj;
-void getBatchObject(Batch obj) {
+Batches? batchObj;
+void getBatchObject(Batches obj) {
   batchObj = obj;
 }

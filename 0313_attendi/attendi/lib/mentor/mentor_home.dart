@@ -1,7 +1,3 @@
-// ignore_for_file: depend_on_referenced_packages
-
-import 'package:attendi/student/add_students.dart';
-import 'package:attendi/student/student_details.dart';
 import 'package:flutter/material.dart';
 
 import 'package:google_fonts/google_fonts.dart';

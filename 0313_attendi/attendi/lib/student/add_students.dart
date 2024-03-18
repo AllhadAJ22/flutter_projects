@@ -1,5 +1,7 @@
 // ignore_for_file: depend_on_referenced_packages
 
+import 'package:attendi/database/database.dart';
+import 'package:attendi/model_classes/student_model.dart';
 import 'package:attendi/student/student_list.dart';
 import 'package:flutter/material.dart';
 import 'package:dropdown_textfield/dropdown_textfield.dart';
@@ -14,8 +16,16 @@ class AddStudent extends StatefulWidget {
 }
 
 class _AddStudentState extends State<AddStudent> {
+  List batchesList = [];
+  void _getBatchList() async {
+    batchesList = await DatabaseSqflite.getBatchList();
+    print(batchesList);
+    setState(() {});
+  }
+
   @override
   void initState() {
+    _getBatchList();
     if (widget.obj != null) {
       setVal(widget.obj);
     }
@@ -55,7 +65,32 @@ class _AddStudentState extends State<AddStudent> {
     _email.clear();
   }
 
-  void saveDetails() {}
+  void saveStudentDetails() {
+    // print(_batch.dropDownValue!.name);
+    DatabaseSqflite.insertStudent(
+      StudentModelClass(
+        rollNo: int.parse(_rollNo.text),
+        email: _email.text,
+        batchName: _batch.dropDownValue!.name,
+        phoneNo: int.parse(_no.text),
+        name: _name.text,
+        gender: (_gender.dropDownValue!.name == "male") ? true : false,
+      ),
+    );
+  }
+
+  List<DropDownValueModel> batchDropDownList() {
+    List<DropDownValueModel> demo = [];
+
+    for (int i = 0; i < batchesList.length; i++) {
+      print("${batchesList[i].batchName}");
+      demo.add(DropDownValueModel(
+          name: "${batchesList[i].batchName}",
+          value: "${batchesList[i].batchName}"));
+    }
+    return demo;
+  }
+
   @override
   Widget build(BuildContext context) {
     return PopScope(
@@ -131,10 +166,7 @@ class _AddStudentState extends State<AddStudent> {
                           controller: _batch,
                           dropDownItemCount: 2,
 
-                          dropDownList: const [
-                            DropDownValueModel(name: "batch1", value: "batch1"),
-                            DropDownValueModel(name: "batch2", value: "batch2"),
-                          ],
+                          dropDownList: batchDropDownList(),
                         ),
                       ),
                       Container(
@@ -218,8 +250,8 @@ class _AddStudentState extends State<AddStudent> {
                           controller: _gender,
                           dropDownItemCount: 2,
                           dropDownList: const [
-                            DropDownValueModel(name: "male", value: true),
-                            DropDownValueModel(name: "female", value: false),
+                            DropDownValueModel(name: "male", value: "male"),
+                            DropDownValueModel(name: "female", value: "female"),
                           ],
                         ),
                       ),
@@ -250,7 +282,13 @@ class _AddStudentState extends State<AddStudent> {
               ),
               ElevatedButton(
                 onPressed: () {
-                  saveDetails();
+                  saveStudentDetails();
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const StudentsList(),
+                    ),
+                  );
                 },
                 style: ElevatedButton.styleFrom(
                     fixedSize: const Size(314, 55),
@@ -281,42 +319,3 @@ class _AddStudentState extends State<AddStudent> {
     );
   }
 }
-
-// class StudentModelClass {
-//   String batchName;
-//   String name;
-//   int rollNo;
-//   int phoneNo;
-//   bool gender;
-//   String email;
-
-//   StudentModelClass({
-//     required this.batchName,
-//     required this.name,
-//     required this.rollNo,
-//     required this.phoneNo,
-//     required this.gender,
-//     required this.email,
-//   });
-
-//   Map<String, dynamic> updatemap() {
-//     return {
-//       "batchName": batchName,
-//       "name": name,
-//       "rollNo": rollNo,
-//       "phoneNo": phoneNo,
-//       "gender": (gender == true) ? 1 : 0,
-//       "email": email
-//     };
-//   }
-
-//   // Map<String, dynamic> workmap() {
-//   //   return {
-//   //     // "card_no": card_no,
-//   //     "title": title,
-//   //     "description": description,
-//   //     "date": date,
-//   //     "cardstatus": 0,
-//   //   };
-//   // }
-// }

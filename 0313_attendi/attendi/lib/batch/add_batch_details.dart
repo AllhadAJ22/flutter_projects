@@ -1,3 +1,6 @@
+import 'package:attendi/batch/all_batches.dart';
+import 'package:attendi/database/database.dart';
+import 'package:attendi/model_classes/batches_model.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -9,6 +12,27 @@ class BatchesDetails extends StatefulWidget {
 }
 
 class _BatchesDetailsState extends State<BatchesDetails> {
+
+  
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
+  final TextEditingController _batchname = TextEditingController();
+  final TextEditingController _location = TextEditingController();
+  final TextEditingController _noofStud = TextEditingController();
+  final TextEditingController _leader = TextEditingController();
+  final TextEditingController _mno = TextEditingController();
+
+  void saveBatchDetails() {
+    DatabaseSqflite.insertBatch(
+      Batches(
+          batchName: _batchname.text,
+          location: _location.text,
+          noOfStud: int.parse(_noofStud.text),
+          leader: _leader.text,
+          mobileNo: int.parse(_mno.text)),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -64,12 +88,14 @@ class _BatchesDetailsState extends State<BatchesDetails> {
               height: 30,
             ),
             Form(
+              key: _formKey,
               child: Column(
                 children: [
                   SizedBox(
                     height: 50,
                     width: 312,
-                    child: TextField(
+                    child: TextFormField(
+                      controller: _batchname,
                       textAlign: TextAlign.center,
                       decoration: InputDecoration(
                         hintText: "Enter batch name",
@@ -87,7 +113,8 @@ class _BatchesDetailsState extends State<BatchesDetails> {
                   SizedBox(
                     height: 50,
                     width: 312,
-                    child: TextField(
+                    child: TextFormField(
+                      controller: _location,
                       textAlign: TextAlign.center,
                       decoration: InputDecoration(
                         hintText: "Enter Location",
@@ -105,7 +132,9 @@ class _BatchesDetailsState extends State<BatchesDetails> {
                   SizedBox(
                     height: 50,
                     width: 312,
-                    child: TextField(
+                    child: TextFormField(
+                      controller: _noofStud,
+                      keyboardType: TextInputType.number,
                       textAlign: TextAlign.center,
                       decoration: InputDecoration(
                         hintText: "Enter  number of students ",
@@ -135,7 +164,8 @@ class _BatchesDetailsState extends State<BatchesDetails> {
                   SizedBox(
                     height: 50,
                     width: 312,
-                    child: TextField(
+                    child: TextFormField(
+                      controller: _leader,
                       textAlign: TextAlign.center,
                       decoration: InputDecoration(
                         hintText: "Enter batch leader’s name",
@@ -153,7 +183,9 @@ class _BatchesDetailsState extends State<BatchesDetails> {
                   SizedBox(
                     height: 50,
                     width: 312,
-                    child: TextField(
+                    child: TextFormField(
+                      controller: _mno,
+                      keyboardType: TextInputType.phone,
                       textAlign: TextAlign.center,
                       decoration: InputDecoration(
                         hintText: "Enter batch leader’s mobile",
@@ -170,7 +202,11 @@ class _BatchesDetailsState extends State<BatchesDetails> {
                   ),
                   GestureDetector(
                     onTap: () {
-                      Navigator.pop(context);
+                      saveBatchDetails();
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) {
+                        return const BatchesHome();
+                      }));
                     },
                     child: Container(
                       height: 50,

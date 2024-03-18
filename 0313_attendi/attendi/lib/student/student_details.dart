@@ -1,5 +1,5 @@
-// ignore_for_file: depend_on_referenced_packages
-
+import 'package:attendi/database/database.dart';
+import 'package:attendi/model_classes/student_model.dart';
 import 'package:attendi/student/add_students.dart';
 import 'package:attendi/student/student_list.dart';
 import 'package:flutter/material.dart';
@@ -16,24 +16,30 @@ class StudentDetails extends StatefulWidget {
 
 class _StudentDetailsState extends State<StudentDetails> {
   void editDetails(StudentModelClass obj) {
-    Navigator.push(context, MaterialPageRoute(builder: (context) {
-      return AddStudent(obj);
-    }));
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) {
+          return AddStudent(obj);
+        },
+      ),
+    );
   }
 
   void deleteStudent(StudentModelClass obj) {
-    print("object");
+    DatabaseSqflite.deleteStudent(obj);
+    Navigator.pop(context);
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => const StudentsList(),
+      ),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     return PopScope(
-      onPopInvoked: (didpop) async {
-        print(didpop);
-        if (didpop) {
-          return;
-        }
-      },
       child: Scaffold(
         body: SingleChildScrollView(
           child: Column(
@@ -136,7 +142,7 @@ class _StudentDetailsState extends State<StudentDetails> {
                           Container(
                             // margin: const EdgeInsets.all(20),
                             // height: 50,
-                            width: 210,
+                            width: 190,
                             // color: Colors.amber,
                             child: Text(
                               widget.obj.batchName,
