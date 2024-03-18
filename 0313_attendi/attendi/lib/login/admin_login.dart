@@ -137,6 +137,8 @@ class _AdminPageState extends State<AdminPage> {
                       // height: 50,
                       width: 312,
                       child: TextFormField(
+                        obscureText: true,
+                        obscuringCharacter: "*",
                         keyboardType: TextInputType.visiblePassword,
                         controller: _pass,
                         textAlign: TextAlign.center,

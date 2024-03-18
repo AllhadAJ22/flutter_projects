@@ -45,6 +45,7 @@ class _AddStudentState extends State<AddStudent> {
   final TextEditingController _email = TextEditingController();
 
   void setVal(StudentModelClass? obj) {
+    // _getBatchList();
     _name.text = obj!.name;
     _rollNo.text = " ${obj.rollNo}";
     _no.text = "${obj.phoneNo}";
@@ -57,6 +58,7 @@ class _AddStudentState extends State<AddStudent> {
   }
 
   void clearController() {
+    // _getBatchList();
     _batch.clearDropDown();
     _gender.clearDropDown();
     _name.clear();
@@ -66,6 +68,8 @@ class _AddStudentState extends State<AddStudent> {
   }
 
   void saveStudentDetails() {
+    // batchesList=[];
+    // _getBatchList();
     // print(_batch.dropDownValue!.name);
     DatabaseSqflite.insertStudent(
       StudentModelClass(
@@ -80,10 +84,11 @@ class _AddStudentState extends State<AddStudent> {
   }
 
   List<DropDownValueModel> batchDropDownList() {
+    // _getBatchList();
     List<DropDownValueModel> demo = [];
 
     for (int i = 0; i < batchesList.length; i++) {
-      print("${batchesList[i].batchName}");
+      // print("${batchesList[i].batchName}");
       demo.add(DropDownValueModel(
           name: "${batchesList[i].batchName}",
           value: "${batchesList[i].batchName}"));
@@ -150,10 +155,11 @@ class _AddStudentState extends State<AddStudent> {
                             filled: true,
                             fillColor: const Color.fromRGBO(217, 217, 217, 0.4),
                             // hintText: "Enter Batch name",
-                            label: Container(
-                              margin: const EdgeInsets.only(left: 90),
+                            hintStyle: TextStyle(),
+                            label: const Center(
+                              // margin: const EdgeInsets.only(left: 90),
                               // color: Colors.amber,
-                              child: const Text(
+                              child: Text(
                                 "Enter Batch name",
                                 textAlign: TextAlign.center,
                               ),
@@ -230,14 +236,15 @@ class _AddStudentState extends State<AddStudent> {
                         height: 50,
                         margin: const EdgeInsets.only(bottom: 20),
                         child: DropDownTextField(
+                          textStyle: TextStyle(),
                           textFieldDecoration: InputDecoration(
                             filled: true,
                             fillColor: const Color.fromRGBO(217, 217, 217, 0.4),
                             // hintText: "Enter Batch name",
-                            label: Container(
-                              margin: const EdgeInsets.only(left: 105),
+                            label: const Center(
+                              // margin: const EdgeInsets.only(left: 105),
                               // color: Colors.amber,
-                              child: const Text(
+                              child: Text(
                                 "Enter gender",
                                 textAlign: TextAlign.center,
                               ),

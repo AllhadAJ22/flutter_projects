@@ -11,7 +11,7 @@ class DatabaseSqflite {
 
   static dynamic openFunction() async {
     database = openDatabase(
-      join(await getDatabasesPath(), "DataCenter2"),
+      join(await getDatabasesPath(), "DataCenter3.db"),
       version: 1,
       onCreate: (db, version) {
         //create the table using execute() method

@@ -9,7 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class AdminHome extends StatefulWidget {
-  const AdminHome({this.obj,super.key});
+  const AdminHome({this.obj, super.key});
 
   final AdminLoginModel? obj;
 
@@ -253,9 +253,15 @@ class _AdminHomeState extends State<AdminHome> {
                   ],
                 ),
               ),
+            
               const SizedBox(
                 height: 500,
                 // margin: const EdgeInsets.all(20),
+                child: Center(
+                  child: Icon(Icons.security, size: 350,
+                  color: Color.fromRGBO(2, 187, 187, 1),),
+                ),
+                // child: Text(),
               ),
               const SizedBox(
                 height: 20,
@@ -266,7 +272,7 @@ class _AdminHomeState extends State<AdminHome> {
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [Image.asset("assets/attendance 1.png")],
                 ),
-              )
+              ),
             ],
           ),
         ),
